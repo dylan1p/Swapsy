@@ -1,0 +1,92 @@
+.fa {
+	font: normal normal normal 18px/1 FontAwesome;
+	padding-right: 50px;
+	font-size: 18px;
+}
+.btn-facebook {
+  color: #fff;
+  display: inline-flex;
+  background-color: #3B5998;
+  border-color: #133783;
+  border-radius: 0px;
+  padding-top: 15px;
+  height: 50px;
+  width:300px;
+}
+.login-header{
+	margin-top: 30px;
+	font-weight: bold;
+	font-size: 33px;
+	color: #4A4A4A;
+	line-height: 33px;
+	margin-bottom: 30px;
+}
+#signHeader{
+	font-size: 25px;
+}
+#login{
+	text-align: center;
+}
+#OR{
+	text-align: center;
+	color: #4a4a56;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.inputBox{
+	border-radius: 3px;
+	height: 40px;
+	width: 300px;
+	padding: 10px;
+	border: 1px solid #E5E5E5;
+	-moz-box-shadow: inset 0px 0px 3px 0px #9B9B9B;
+	-ms-box-shadow: inset 0px 0px 3px 0px #9B9B9B;
+	-o-box-shadow: inset 0px 0px 3px 0px #9B9B9B;
+	box-shadow: inset 0px 0px 3px 0px #9B9B9B;
+}
+.help-block{
+	text-align: left;
+}
+
+.btn-login{
+	border-radius: 3px;
+	float: left;
+	width: 170px;
+	height: 50px;
+	color: white;
+	border: none;
+	font-weight: bold;
+	background-image: -o-linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: ­moz­linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: ­ms­linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: linear-gradient(-179deg, #C17CFC 0%, #7000D2 100%);
+}
+.btn-login:hover{
+	border-radius: 3px;
+	float: left;
+	width: 170px;
+	height: 50px;
+	color: white;
+	border: none;
+	font-weight: bold;
+	background-image: -o-linear­gradient(-89deg, #BA74F5 0%, #7000D2 100%);
+	background-image: ­moz­linear­gradient(-89deg, #BA74F5 0%, #7000D2 100%);
+	background-image: ­ms­linear­gradient(-89deg,#BA74F5 0%, #7000D2 100%);*
+	background-image: linear-gradient(-179deg,#BA74F5 0%, #7000D2 100%);
+}
+
+#loginForm{
+	width: 300px;
+	display: inline-block;
+}
+#loginForm label{
+	float: left;
+}
+.checkbox label{
+	font-size: 12px;
+	color: #9B9B9B;
+	line-height: 17px;
+}
+a{
+	color:  #7000D2;	
+}

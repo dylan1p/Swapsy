@@ -1,0 +1,37 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-3">
+			Register a new item	<br>
+			{{item.name}}	
+		</div>
+		<div></div>
+		<div class="col-md-9">
+			<form id="newItemForm" class="form" name="form" ng-submit="create()" novalidate>
+				Item name:
+				<input type="text" name="name" class="form-control" ng-model="item.name" required></input>
+				Condition
+				<br>
+				<select ng-model="item.condition" ng-options="condition.name for condition in condition" ></select>
+				<br>
+				Location:
+				<input type="text" name="location" class="form-control" ng-model="item.location" required></input>
+				Value:
+				<input type="text" name="price" class="form-control" ng-model="item.price" required></input>
+				Category
+				<br>
+				<select ng-model="item.category" ng-options="categories.name for categories in categories"></select>
+				<br>
+				Description
+				<br>
+				<textarea class="form-control" name="description" ng-model="item.description" rows="5" ></textarea> 
+				<br>	
+				 <button class="btn-login" type="submit">
+	              Submit
+	            </button>	
+			</form>
+		</div>
+
+	</div>
+	
+
+</div>
