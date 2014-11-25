@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('AdditemCtrl', function ($scope,Items,Auth) {
+  .controller('AdditemCtrl', function ($scope,Items,Auth,$location) {
 
      $scope.categories = [
       {name:'Electronics'},
@@ -18,13 +18,14 @@ angular.module('swapsyApp')
     ];
 
     $scope.item = {};
-    console.log(Auth.getCurrentUser());
+    $scope.currentUser = Auth.getCurrentUser();
+    console.log($scope.currentUser);
 
   	  $scope.create = function() {
            			var item = new Items({
            				name: $scope.item.name,
                   price: $scope.item.price,
-                  owner: Auth.getCurrentUser.id,
+                  owner: $scope.currentUser.id,
                   photos: null,
                   description: $scope.item.description,
                   location: $scope.item.location,
@@ -33,7 +34,7 @@ angular.module('swapsyApp')
                   statuse:'Active'
            			});
            			item.$save(function(response) {
-           				console.log('saved');
+           				console.log(response);
            				$location.path('item/' + response._id);
            			}, function(errorResponse) {
            				$scope.error = errorResponse.data.message;

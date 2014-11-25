@@ -1,5 +1,5 @@
 {
-  "name": "item",
+  "name": "swapsy",
   "version": "0.0.0",
   "main": "server/app.js",
   "dependencies": {
@@ -19,8 +19,6 @@
     "express-jwt": "^0.1.3",
     "passport": "~0.2.0",
     "passport-local": "~0.1.6",
-    "passport-facebook": "latest",
-    "passport-twitter": "latest",
     "composable-middleware": "^0.3.0",
     "connect-mongo": "^0.4.1"
   },

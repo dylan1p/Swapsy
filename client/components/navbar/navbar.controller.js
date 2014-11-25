@@ -5,12 +5,7 @@ angular.module('swapsyApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
-    },
-    {
-      'title': 'Add Item',
-      'link': '#/addItem'
     }];
-    
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;

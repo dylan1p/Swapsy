@@ -6,5 +6,9 @@ angular.module('swapsyApp')
       .when('/item', {
         templateUrl: 'app/item/item.html',
         controller: 'ItemCtrl'
+      })
+       .when('/item/:itemId', {
+              templateUrl: 'app/item/item.html',
+              controller: 'ItemCtrl'
       });
   });

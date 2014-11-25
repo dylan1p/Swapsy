@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('LoginCtrl', function ($scope, Auth, $location, $window,$timeout) {
+  .controller('LoginCtrl', function ($scope, Auth, $location) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -18,14 +18,9 @@ angular.module('swapsyApp')
           $location.path('/');
         })
         .catch( function(err) {
-          $scope.errors.others = err.message;
-        }).then(function(){
-          $scope.$apply();
+          $scope.errors.other = err.message;
         });
       }
     };
 
-    $scope.loginOauth = function(provider) {
-      $window.location.href = '/auth/' + provider;
-    };
   });

@@ -1,14 +1,16 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('ItemCtrl', function ($scope,Items,$http) {
+  .controller('ItemCtrl', function ($scope,Items,$routeParams) {
     
-    
-
-    Items.get({itemId: '53c05e6fbe88e9181674e3e2'}).$promise.then(function(data){
-                    $scope.items = data;
-                }, function(err){
-                        console.log(err);
-                });
+    var init = function () {
+    Items.get({itemId: $routeParams.itemId}).$promise.then(function(data){
+                $scope.item = data;
+            }, function(err){
+            	console.log(err);
+        });
+	};
+       
+    init();
   
 });
