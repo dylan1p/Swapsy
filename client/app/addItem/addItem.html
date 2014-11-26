@@ -25,9 +25,23 @@
 				<br>
 				<textarea class="form-control" name="description" ng-model="item.description" rows="5" ></textarea> 
 				<br>	
-				 <button class="btn-login" type="submit">
+				<div class="form-group">
+				        <label for="photos">Input Picture</label>
+				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
+				</div>
+				<div width="100" height="200" class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
+				"dragged-over">
+					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload</div>
+						<div ng-repeat="item in item.photos">
+					  		<img class="thumbnail thumbnailImage" src="{{item}}"/>
+						</div>
+				   	</div>
+				   	 <button class="btn-login" type="submit">
 	              Submit
-	            </button>	
+	            </button>
+				</div>
+				
+					
 			</form>
 		</div>
 

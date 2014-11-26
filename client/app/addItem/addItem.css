@@ -1,0 +1,25 @@
+.thumbnailImage{
+	float: left;
+	display: block;
+	width: 120px;
+	height: 120px;
+}
+.dropZone{
+	text-align: center;
+	color: #ccc;
+	font-size: 14px;
+	font-weight: bold;
+	height: 200px;
+	border: 2px dashed #ccc;
+	margin-bottom:20px; 
+	-moz-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+.dragged-over{	
+	border-color:#191919;
+}
+  
+
+
