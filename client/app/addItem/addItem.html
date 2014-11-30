@@ -1,39 +1,53 @@
 <div class="container">
 	<div class="row">
+		<div class="col-md-12 registerText">Register a new item</div>
 		<div class="col-md-3">
-			Register a new item	<br>
-			{{item.name}}	
+			<div class="card">
+				<div class="card-title">{{item.name}}</div>
+				<div class="owner-name">{{currentUser.name}}</div>
+				<div id="itemImage" class="itemImage"><img class="itemImage" src=""></img></div>
+				<div class="item-category">{{item.category.name}}</div>
+				<div class="item-condition">{{item.condition.name}}</div>
+				<div class="item-price">€{{item.price}}</div>				
+			</div>
+			<div class="preferred">Preffered Items Tags</div>
+			<div>
+				<input id="tagsInput" type="text" name="tags" class="form-control" ng-keypress="addTag($event)" ng-model="tag">
+			</div>
+			<div class="tags" ng-repeat="tag in item.tags">
+				<div class="tagLine"><span class="tag">{{tag}}</span><button ng-click="removeTag(tag)" class="btn-remove glyphicon glyphicon-remove"></button></div>
+			</div>
 		</div>
 		<div></div>
 		<div class="col-md-9">
 			<form id="newItemForm" class="form" name="form" ng-submit="create()" novalidate>
-				Item name:
+				<label for ="name">Item name:</label>
 				<input type="text" name="name" class="form-control" ng-model="item.name" required></input>
-				Condition
+				<label for ="condition">Condition</label>
 				<br>
-				<select ng-model="item.condition" ng-options="condition.name for condition in condition" ></select>
+				<select name="condition"ng-model="item.condition" ng-options="condition.name for condition in condition" ></select>
 				<br>
-				Location:
+				<label>Location</label>
+				<br>
 				<input type="text" name="location" class="form-control" ng-model="item.location" required></input>
-				Value:
+				<label>Value</label>
 				<input type="text" name="price" class="form-control" ng-model="item.price" required></input>
-				Category
+				<label>Category</label>
 				<br>
 				<select ng-model="item.category" ng-options="categories.name for categories in categories"></select>
 				<br>
-				Description
+				<label>Description</label>
 				<br>
 				<textarea class="form-control" name="description" ng-model="item.description" rows="5" ></textarea> 
 				<br>	
 				<div class="form-group">
-				        <label for="photos">Input Picture</label>
 				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
 				</div>
 				<div width="100" height="200" class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
 				"dragged-over">
-					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload</div>
-						<div ng-repeat="item in item.photos">
-					  		<img class="thumbnail thumbnailImage" src="{{item}}"/>
+					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
+						<div class="thumbnail thumbnailImage" ng-repeat="item in item.photos">
+					  		<img  src="{{item}}"/>
 						</div>
 				   	</div>
 				   	 <button class="btn-login" type="submit">

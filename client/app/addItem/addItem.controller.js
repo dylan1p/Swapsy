@@ -17,9 +17,21 @@ angular.module('swapsyApp')
       {name:'Faulty'}
     ];
     $scope.item = {};
-    $scope.item.photos = [];
-    $scope.currentUser = Auth.getCurrentUser();
 
+    $scope.item.photos = [];
+    $scope.item.tags = [];
+    $scope.currentUser = Auth.getCurrentUser();
+    
+    $scope.addTag = function(keyEvent) {
+      if (keyEvent.which === 13){
+         $scope.item.tags.push($scope.tag);
+         $scope.tag = "";
+      }
+       
+    }
+    $scope.removeTag = function(tag){
+      $scope.item.tags.splice($scope.item.tags.indexOf(tag),1);
+    }
 
     $scope.onFileSelect = function ($files) {
       $http.get('/aws/config').success(function(config) {
@@ -58,7 +70,9 @@ angular.module('swapsyApp')
                   etag: data.postresponse.etag
                 };
                 $scope.item.photos.push(parsedData.location);
-                console.log($scope.item.photos);
+                 if($scope.item.photos.length<2){
+                    $('#itemImage > img').attr('src',$scope.item.photos[0]);
+                  }
                 } else {
                         alert('Upload Failed');
                 }
@@ -79,6 +93,7 @@ angular.module('swapsyApp')
         description: $scope.item.description,
         location: $scope.item.location,
         views: 0,
+        tags: $scope.item.tags,
         category: $scope.item.category,
         statuse:'Active'
       });
