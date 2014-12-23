@@ -1,3 +1,4 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 registerText">Register a new item</div>
@@ -43,7 +44,7 @@
 				<div class="form-group">
 				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
 				</div>
-				<div width="100" height="200" class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
+				<div class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
 				"dragged-over">
 					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
 						<div class="thumbnail thumbnailImage" ng-repeat="item in item.photos">

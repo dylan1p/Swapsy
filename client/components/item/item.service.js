@@ -6,7 +6,7 @@ angular.module('swapsyApp')
             return $resource('/api/items/:itemId', {
                 itemId: '@_id'
             }, {
-                get:    {method:'GET'},
+                getAll: {method:'GET', isArray:true },
                 save:   {method:'POST'},
                 query:  {method:'GET', isArray:true},
                 remove: {method:'DELETE'},
@@ -14,3 +14,4 @@ angular.module('swapsyApp')
             });
         }
   ]);
+ 

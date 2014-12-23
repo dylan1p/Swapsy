@@ -62,13 +62,6 @@
 	background-image: linear-gradient(-179deg, #C17CFC 0%, #7000D2 100%);
 }
 .btn-login:hover{
-	border-radius: 3px;
-	float: left;
-	width: 170px;
-	height: 50px;
-	color: white;
-	border: none;
-	font-weight: bold;
 	background-image: -o-linear­gradient(-89deg, #BA74F5 0%, #7000D2 100%);
 	background-image: ­moz­linear­gradient(-89deg, #BA74F5 0%, #7000D2 100%);
 	background-image: ­ms­linear­gradient(-89deg,#BA74F5 0%, #7000D2 100%);*

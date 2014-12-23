@@ -20,7 +20,7 @@ angular.module('swapsyApp')
 
     $scope.item.photos = [];
     $scope.item.tags = [];
-    $scope.currentUser = Auth.getCurrentUser();
+
     
     $scope.addTag = function(keyEvent) {
       if (keyEvent.which === 13){
@@ -85,16 +85,19 @@ angular.module('swapsyApp')
     };    
     
   	$scope.create = function() {
+      $scope.currentUser = Auth.getCurrentUser();
+      
       var item = new Items({
         name: $scope.item.name,
         price: $scope.item.price,
-        owner: $scope.currentUser.id,
+        owner: /*$scope.currentUser._id*/'548df3dc39dc6fcc1ed1b275',
         photos: $scope.item.photos,
         description: $scope.item.description,
         location: $scope.item.location,
+        condition: $scope.item.condition.name,
         views: 0,
         tags: $scope.item.tags,
-        category: $scope.item.category,
+        category: $scope.item.category.name,
         statuse:'Active'
       });
       item.$save(function(response) {

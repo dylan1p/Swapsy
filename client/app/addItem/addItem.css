@@ -26,7 +26,7 @@
 }
 .dropText{
 	position: absolute;
-	left: 50%;
+	left: 40%;
 	top: 50%;
 }
 .dragged-over{	
@@ -55,7 +55,7 @@
 	line-height: 15px;
 }
 .owner-name{
-	padding-top: 10px;
+	margin-top: 5px;
 	font-size: 10px;
 	color: #9B9B9B;
 	line-height: 14px;
@@ -71,6 +71,7 @@
 	color: #9B9B9B;
 }
 .item-price{
+	float: left;
 	font-weight: bold;
 	font-size: 18px;
 	color: #F5A623;
@@ -79,6 +80,12 @@
 	font­size: 11px;
 	color: #4A4A4A;
 	line-height: 15px;
+}
+.item-views{
+	float: right;
+	padding-top: 3px;
+	font­size: 10px;
+	color: #9B9B9B;
 }
 .progress{
 	position: absolute;

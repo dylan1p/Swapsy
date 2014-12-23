@@ -6,15 +6,21 @@ var mongoose = require('mongoose'),
 var ItemSchema = new Schema({
   name: String,
   price: Number,
-  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  owner: {type: Schema.Types.ObjectId, ref: 'User'},
   photos: [String],
-  date_uploaded: Date,
+  date_uploaded: { type: Date, default: Date.now },
   description: String,
-  location: {County:String},
+  location: String,
+  condition: String,
   views: Number,
   category: String,
   tags:[String],
-  statuse: String
+  status: String,
+  comments: [{
+    user: {type: Schema.Types.ObjectId, ref: 'User'},    
+    text: String,
+    date_placed: {type: Date, default: Date.now}
+  }]
 });
 
 

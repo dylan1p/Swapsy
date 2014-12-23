@@ -5,7 +5,10 @@ var Item = require('./item.model');
 
 // Get list of items
 exports.index = function(req, res) {
-  Item.find(function (err, items) {
+  Item.find()
+  .populate('owner','name')
+  .populate('comments.user','name')
+  .exec(function (err, items) {
     if(err) { return handleError(res, err); }
     return res.json(200, items);
   });
@@ -13,7 +16,11 @@ exports.index = function(req, res) {
 
 // Get a single item
 exports.show = function(req, res) {
-  Item.findById(req.params.id, function (err, item) {
+  Item.findById(req.params.id)
+  .populate('owner','name')
+  .populate('comments.user','name')
+  .exec(function (err, item) {
+    console.log(item);
     if(err) { return handleError(res, err); }
     if(!item) { return res.send(404); }
     return res.json(item);
@@ -38,6 +45,23 @@ exports.update = function(req, res) {
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, item);
+    });
+  });
+};
+exports.addComment = function(req, res) {
+  if(req.body._id) { delete req.body._id; }
+  Item.findById(req.params.id, function (err, item) {
+    if (err) { return handleError(res, err); }
+    if(!item) { return res.send(404); }
+    var comment = ({
+       user: req.body.user,    
+       text: req.body.comment
+    });
+    item.comments.push(comment);
+    var updated = item;
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, comment);
     });
   });
 };

@@ -1,22 +1,12 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    $scope.awesomeThings = [];
-
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
-    });
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
-    };
+  .controller('MainCtrl', function ($scope,$location,Items) {
+    	
+    	Items.getAll().$promise.then(function(data){
+                $scope.items = data;
+            }, function(err){
+            	console.log(err);
+        });
+       
   });
