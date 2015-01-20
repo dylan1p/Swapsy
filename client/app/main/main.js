@@ -5,6 +5,12 @@ angular.module('swapsyApp')
     $routeProvider
       .when('/', {
         templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Items, $rootScope){
+                $rootScope.items =  Items.getAll();
+              }
+        }
+      
       });
   });

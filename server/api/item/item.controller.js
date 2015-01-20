@@ -5,22 +5,39 @@ var Item = require('./item.model');
 
 // Get list of items
 exports.index = function(req, res) {
-  Item.find()
+  var query = Item.find()
   .populate('owner','name')
-  .populate('comments.user','name')
-  .exec(function (err, items) {
+  .populate('comments.user','name');
+  if(req.query.name){
+    query.where({ name: new RegExp('^' + '[' + req.query.name + ']', 'i') });
+  }
+  /*else if(req.query.name){
+    query.where({ category: new RegExp('^' + '[' + req.query.alphabet + ']', 'i') });
+  }*/
+  query.exec(function (err, items) {
     if(err) { return handleError(res, err); }
     return res.json(200, items);
   });
 };
-
+// Get list of items in category
+exports.category = function(req, res) { 
+  var query = Item.find()
+  .populate('owner','name')
+  .populate('comments.user','name');
+  if(req.query.name){
+    query.where({ category: new RegExp('^' + '[' + req.query.name + ']', 'i') });
+  }
+  query.exec(function (err, items) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, items);
+  });
+};
 // Get a single item
 exports.show = function(req, res) {
   Item.findById(req.params.id)
   .populate('owner','name')
   .populate('comments.user','name')
   .exec(function (err, item) {
-    console.log(item);
     if(err) { return handleError(res, err); }
     if(!item) { return res.send(404); }
     return res.json(item);

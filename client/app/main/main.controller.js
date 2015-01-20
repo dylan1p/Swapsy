@@ -1,12 +1,16 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('MainCtrl', function ($scope,$location,Items) {
+  .controller('MainCtrl', function ($scope,$rootScope,$location,Items) {
     	
-    	Items.getAll().$promise.then(function(data){
-                $scope.items = data;
+    	if($location.path() == '/Electronics'){
+    	
+    	}
+    	/*Items.getAll({name:'i'}).$promise.then(function(data){
+                $rootScope.items = data;
             }, function(err){
             	console.log(err);
         });
+    	*/
        
   });

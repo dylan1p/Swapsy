@@ -8,7 +8,84 @@ angular.module('swapsyApp', [
   'angularFileUpload'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
-    $routeProvider
+      $routeProvider.when('/Electronics', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Electronics'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
+      $routeProvider.when('/Motor', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Motor'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
+      $routeProvider.when('/Clothing', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Motor'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
+      $routeProvider.when('/Furniture', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Furniture'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
+      $routeProvider.when('/Services', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Services'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
+      $routeProvider.when('/Jewellery', {
+        templateUrl: 'app/main/main.html',
+        controller: 'MainCtrl',
+        resolve: {
+            items: function(Category, $rootScope){
+                Category.getAll({name:'Jewellery'}).$promise.then(function(data){
+                    $rootScope.items = data;
+                  }, function(err){
+                    console.log(err);
+              });
+              }
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
