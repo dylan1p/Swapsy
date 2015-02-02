@@ -25,18 +25,21 @@
       <link rel="stylesheet" href="app/addItem/addItem.css">
       <link rel="stylesheet" href="app/admin/admin.css">
       <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/catalogue/catalogue.css">
+      <link rel="stylesheet" href="app/edit/edit.css">
       <link rel="stylesheet" href="app/item/item.css">
       <link rel="stylesheet" href="app/main/main.css">
+      <link rel="stylesheet" href="components/card/card.css">
       <!-- endinjector -->
     <!-- endbuild -->
   </head>
-  <body ng-app="swapsyApp">
+  <body  ng-app="swapsyApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div ng-view=""></div>
+    <div  ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
@@ -66,6 +69,7 @@
       <!-- endbower -->
     <!-- endbuild -->
      <script src="bower_components/xml2json/xml2json.js"></script>
+     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
@@ -78,12 +82,19 @@
           <script src="app/addItem/addItem.js"></script>
           <script src="app/admin/admin.controller.js"></script>
           <script src="app/admin/admin.js"></script>
+          <script src="app/catalogue/catalogue.controller.js"></script>
+          <script src="app/catalogue/catalogue.js"></script>
+          <script src="app/edit/edit.controller.js"></script>
+          <script src="app/edit/edit.js"></script>
           <script src="app/item/item.controller.js"></script>
           <script src="app/item/item.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
           <script src="components/auth/auth.service.js"></script>
           <script src="components/auth/user.service.js"></script>
+          <script src="components/card/card.directive.js"></script>
+          <script src="components/cat/cat.service.js"></script>
+          <script src="components/catalogue/catalogue.service.js"></script>
           <script src="components/category/category.service.js"></script>
           <script src="components/comment/comment.service.js"></script>
           <script src="components/item/item.service.js"></script>

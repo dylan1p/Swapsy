@@ -3,24 +3,25 @@
 angular.module('swapsyApp')
   .controller('AdditemCtrl', function ($scope,$location,$http,$rootScope,$upload,Items,Auth) {
 
-     $scope.categories = [
-      {name:'Electronics'},
-      {name:'Motors'},
-      {name:'Furniture'},
-      {name:'Musical Instruments'},
-      {name:'Clothing'}
+   $scope.categories = [
+      'Electronic',
+      'Motor',
+      'Furniture',
+      'Musical Instrument',
+      'Clothing'
     ];
     $scope.condition = [
-      {name:'New'},
-      {name:'Used'},
-      {name:'Factory Restored'},
-      {name:'Faulty'}
+      'New',
+      'Used',
+      'Factory Restored',
+      'Faulty'
     ];
     $scope.item = {};
 
     $scope.item.photos = [];
     $scope.item.tags = [];
-
+    
+    $scope.getCurrentUser = Auth.getCurrentUser;
     
     $scope.addTag = function(keyEvent) {
       if (keyEvent.which === 13){
@@ -90,14 +91,14 @@ angular.module('swapsyApp')
       var item = new Items({
         name: $scope.item.name,
         price: $scope.item.price,
-        owner: /*$scope.currentUser._id*/'548df3dc39dc6fcc1ed1b275',
+        owner: /*$scope.currentUser._id*/'54cd12961189dbcc1f5c602e',
         photos: $scope.item.photos,
         description: $scope.item.description,
         location: $scope.item.location,
-        condition: $scope.item.condition.name,
+        condition: $scope.item.condition,
         views: 0,
         tags: $scope.item.tags,
-        category: $scope.item.category.name,
+        category: $scope.item.category,
         statuse:'Active'
       });
       item.$save(function(response) {

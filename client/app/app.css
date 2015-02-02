@@ -36,10 +36,23 @@
 #logsig{
     font-size: 11px;
     margin-bottom: 2px; 
+    color: #7000D2;
 }
+
 #headbar{
     margin-top: 5px;
 }
 .input-group{
     height: 25px;
+}
+.btn-logout{
+    background-color:white;
+    border: none;
+ 
+}
+.dropdown-menu > li > a{
+    text-align: center;
+    font-size: 12px;
+    color: #7000D2;
+    cursor: pointer;
 }

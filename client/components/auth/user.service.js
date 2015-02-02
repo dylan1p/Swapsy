@@ -12,6 +12,9 @@ angular.module('swapsyApp')
           controller:'password'
         }
       },
+      getUser: {
+        method:'GET'
+      },
       get: {
         method: 'GET',
         params: {

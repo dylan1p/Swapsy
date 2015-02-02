@@ -2,11 +2,31 @@
   <div id="headbar" class="container">
     <div class="col-md-2 col-sm-12"><a href="/" class="swapsyIcon"> </a></div>
     <div class="searchbar col-md-10 col-sm-12">
-      <div id="logsig"><a href="/signup">Register </a>/<a href="/login"> Sign In</a></div>
+      <div id="logsig">
+        <span class="pull-right" ng-hide="isLoggedIn()" ng-class="{active: isActive('/signup')}"><a href="/signup"> /Sign up</a></span>
+       
+        <span class="pull-right" ng-hide="isLoggedIn()" ng-class="{active: isActive('/login')}"><a href="/login">Login</a></span>
+        
+        <!-- <span class="pull-right"  ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()"><!--  Logout</a></span> -->
+        <div ng-show="isLoggedIn()">
+      
+        <div  class="pull-right dropdown">
+          <button class="btn-logout glyphicon glyphicon-off dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" ng-href="catalogue/{{getCurrentUser()._id}}">Profile</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()">Logout</a></li>
+          </ul>
+        </div>
+        </div>
+        <span ng-show="isLoggedIn()" class="pull-right"  ng-class="{active: isActive('/logout')}">Hello {{getCurrentUser().name}}</span>
+        <span ><a href="/addItem">Place Item</a></span>
+      </div>
+
       <div class="input-group">
-        <input type="text" ng-model="name" class="searchBox form-control" placeholder="Search for...">
+        <input type="text" ng-model="name" class="searchBox form-control" ng-keypress="searchK($event)" placeholder="Search for...">
         <span class="input-group-btn">
-          <button id="search"class="btn-login watchList" type="button" ng-click="search()">Search</button>
+          <button id="search"class="btn-login watchList" type="button"  ng-click="search()">Search</button>
         </span>
       </div>
     </div>  

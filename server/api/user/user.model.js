@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  items: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
+  dateJoined: { type: Date, default: Date.now },
   rating: Number,
   hashedPassword: String,
   provider: String,

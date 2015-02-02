@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('ItemCtrl', function ($scope,Items,Comments,Auth,$routeParams) {
+  .controller('ItemCtrl', function ($scope,Items,Comments,Catalogue, Auth,$routeParams,$location) {
     
     $scope.getCurrentUser = Auth.getCurrentUser();
     var init = function () {
@@ -10,12 +10,41 @@ angular.module('swapsyApp')
             }, function(err){
             	console.log(err);
         });
-         
+        
 	};
+    $scope.currentUser = Auth.getCurrentUser()
+    $scope.myVar = true;
    
-    $scope.hasItem = function(item){
-    	alert('do you have an' + item);
-    }  
+    $scope.showModal = function() {
+        if($scope.getCurrentUser){
+            Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){
+               
+                $scope.catalogue = data.items;
+                $scope.user = data.user;
+                $scope.userItemID = $scope.catalogue[0]._id;
+                $scope.userItem = $scope.catalogue[0];
+                 
+                }, function(err){
+                    console.log(err);
+            });  
+        }
+       
+        $scope.myVar = !$scope.myVar;
+    };
+    $scope.changeItem = function(){
+        angular.forEach($scope.catalogue, function(item,index){
+            if (item._id == $scope.userItemID ) {
+                $scope.userItem = item;
+            };
+        }); 
+    }
+    $scope.hideModal = function(){
+        $scope.myVar = !$scope.myVar;
+    }
+    
+    $scope.editItem = function(){
+        $location.path('item/edit/' + $scope.item._id);
+    }
     $scope.addComment = function(){
         var comment = {
             _id: $routeParams.itemId,
@@ -26,7 +55,7 @@ angular.module('swapsyApp')
 
         comments.$update(function(data) {
                 $scope.item.comments.push({
-                    user: {_id: $scope.getCurrentUser._id, name:$scope.getCurrentUser.name},
+                    user: {_id: $scope.getCurrentUser._id, name: $scope.getCurrentUser.name},
                     text: data.text
                 })
                 $scope.comment = '';

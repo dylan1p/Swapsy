@@ -1,3 +1,77 @@
+.showModal{
+	opacity: 1;
+}
+.hideModal{
+	opacity: 0;
+}
+.popup{
+	margin: 30px auto;
+	height: 500px;
+	width: 500px;
+	background-color: white;
+	z-index: 9999;
+	border-radius: 5px;
+}
+.popupContent{
+	padding: 20px;	
+	margin-bottom: 20px;
+}
+.inner {
+    display: table;
+    margin: 0 auto;
+}
+.tots{
+	margin-top: 20px;
+	width: 170px;
+	border-top: 1px solid #898888;
+	margin-bottom: 20px;
+}
+.cancel{
+	border-radius: 3px;
+	margin-right: 20px;
+	float: left;
+	width: 170px;
+	height: 40px;
+	color: white;
+	border: none;
+	font-weight: bold;
+	background-color: #C5C4C4;
+}
+.modal-header {
+	border-top-left-radius: 5px;
+  	border-top-right-radius: 5px;
+	background-image: -o-linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: ­moz­linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: ­ms­linear­gradient(-89deg, #C17CFC 0%, #7000D2 100%);
+	background-image: linear-gradient(-179deg, #C17CFC 0%, #7000D2 100%);
+}
+.modal-title{
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+.total{
+	font-weight: bold;
+  	font-size: 18px;
+  	color: #F5A623;
+  	float: right;
+}
+.overlay{ 
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1001;
+  background-color: rgba(0,0,0,0.5); /*dim the background*/
+  -webkit-animation: fadein 10s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: fadein 2s; /* Firefox < 16 */
+        -ms-animation: fadein 2s; /* Internet Explorer */
+         -o-animation: fadein 2s; /* Opera < 12.1 */
+            animation: fadein 10s;
+}
+
+
 .addTitle{
 	font-size: 20px;
 	font-weight: bold;
@@ -5,7 +79,7 @@
 .image-slider{
 	list-style: none;
 	padding: 0;
-	margin-top: 5px;
+	margin-top: 30px;
 }
 .image-slider >li {
 	float: left;
@@ -82,6 +156,7 @@
 .ownerID{
 	color:#9b9b9b;
 	font-size: 16px;
+	margin-top: 5px;
 }
 #details{
 	margin-top: 20px;
@@ -140,4 +215,18 @@
 }
 #comments{
 	margin-top: 20px;
+}
+.edit-btn{
+	z-index: 1001;
+	background-color: white;
+	float: right;
+	font-size: 15px;
+	color: #7000D2;
+	padding: 5px;
+	border-radius: 8px;
+	border: 1px solid;
+}
+.ownerName{
+	font-size: 14px;
+	margin-bottom: 20px;
 }

@@ -32,12 +32,24 @@ angular.module('swapsyApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
+
+    $scope.searchK = function(keyEvent){
+      if (keyEvent.which === 13){
+       Items.getAll({name: $scope.name}).$promise.then(function(data){
+                  $rootScope.items = data;
+              }, function(err){
+                console.log(err);
+        });
+       $location.path('/');
+      }
+    }
     $scope.search = function(){
      Items.getAll({name: $scope.name}).$promise.then(function(data){
                 $rootScope.items = data;
             }, function(err){
               console.log(err);
       });
+     $location.path('/');
     }
     $scope.logout = function() {
       Auth.logout();

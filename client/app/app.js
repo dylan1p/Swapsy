@@ -12,8 +12,9 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Electronics'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Electronic'}).$promise.then(function(data){
+                    $rootScope.Category = 'Electronics'
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -25,8 +26,9 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Motor'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Motor'}).$promise.then(function(data){
+                    $rootScope.Category = 'Motor'
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -38,8 +40,9 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Motor'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Clothing'}).$promise.then(function(data){
+                    $rootScope.Category = 'Clothing'
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -51,8 +54,9 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Furniture'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Furniture'}).$promise.then(function(data){
+                    $rootScope.Category = 'Furniture'
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -64,8 +68,9 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Services'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Service'}).$promise.then(function(data){
+                    $rootScope.Category = 'Service'
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -77,8 +82,8 @@ angular.module('swapsyApp', [
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl',
         resolve: {
-            items: function(Category, $rootScope){
-                Category.getAll({name:'Jewellery'}).$promise.then(function(data){
+            items: function(ItemCat, $rootScope){
+                ItemCat.getAll({name:'Jewellery'}).$promise.then(function(data){
                     $rootScope.items = data;
                   }, function(err){
                     console.log(err);
@@ -122,9 +127,6 @@ angular.module('swapsyApp', [
 
   .run(function ($rootScope, $location, Auth, $http) {
 
-    $http.get('/aws/config').success(function(config) {
-        $rootScope.config = config;
-      });
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {

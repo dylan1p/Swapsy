@@ -1,4 +1,4 @@
-/**
+/*
  * Populate DB with sample data on server start
  * to disable, edit config/environment/index.js, and set `seedDB: false`
  */
@@ -7,8 +7,28 @@
 
 var User = require('../api/user/user.model');
 var Item = require('../api/item/item.model');
-/*
-Item.find({}).remove(function(){
+var Category = require('../api/category/category.model');
+
+
+/*Category.find({}).remove(function() {
+  Category.create({
+    name: 'Electronics'
+  }, {
+    name: 'Motor'
+  },{
+    name: 'Furniture'
+  },{
+    name: 'Musical Instruments'
+  }, {
+    name:'Clothing'
+  }, function() {
+      console.log('finished populating Category');
+    }
+  );
+});*/
+
+
+/*Item.find({}).remove(function(){
   console.log('items removed');
 });
 User.find({}).remove(function() {

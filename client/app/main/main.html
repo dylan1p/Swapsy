@@ -1,21 +1,11 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <div ng-repeat="item in items"> 
+  <div class="catName">{{Category}}</div>
+  <div class="cards" ng-repeat="item in items"> 
      <a ng-href="item/{{item._id}}">
-      <div class="card cards">
-        <div class="card-title">{{item.name}}</div>
-        <div class="owner-name">Dylan1p</div>
-        <div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{item.photos[0]}}"></img></div>
-        <div class="item-category">{{item.category}}</div>
-        <div class="item-condition">{{item.condition}}</div>
-        <div class="item-price">€{{item.price}}</div>
-        <div class="item-views">{{item.views}} views</div>        
-      </div>
+      <card data="item"></card>
     </a>
 </div>
 </div>
-
-<footer class="footer">
-  
-</footer>
+<footer class="footer"></footer>

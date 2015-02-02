@@ -8,6 +8,7 @@ angular.module('swapsyApp')
         controller: 'MainCtrl',
         resolve: {
             items: function(Items, $rootScope){
+                $rootScope.Category = 'All Categories'
                 $rootScope.items =  Items.getAll();
               }
         }
