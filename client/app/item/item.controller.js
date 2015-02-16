@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('ItemCtrl', function ($scope,$routeParams,$location,Swap,Items,Comments,Catalogue, Auth) {
+  .controller('ItemCtrl', function ($scope,$routeParams,$location,Swap,Items,Message,Comments,Catalogue, Auth) {
     
     $scope.getCurrentUser = Auth.getCurrentUser();
     var init = function () {
@@ -18,12 +18,10 @@ angular.module('swapsyApp')
     $scope.showModal = function() {
         if($scope.getCurrentUser){
             Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){
-               
                 $scope.catalogue = data.items;
                 $scope.user = data.user;
                 $scope.userItemID = $scope.catalogue[0]._id;
                 $scope.userItem = $scope.catalogue[0];
-                 
                 }, function(err){
                     console.log(err);
             });  
@@ -65,9 +63,10 @@ angular.module('swapsyApp')
     } 
     $scope.swapItem = function(){
         var swap = new Swap({
-            Swapper: $scope.currentUser._id,
-            Swapy: $scope.item.owner._id,
-            SwapperItems:[{ 
+            swapper: $scope.currentUser._id,
+            swapy: $scope.item.owner._id,
+            swapperItems:[{ 
+                _id: $scope.userItem._id,
                 name: $scope.userItem.name,
                 price: $scope.userItem.price,
                 owner: $scope.currentUser._id,
@@ -76,7 +75,8 @@ angular.module('swapsyApp')
                 views: $scope.userItem.views,
                 category: $scope.userItem.category
             }],
-            SwapyItems:[{ 
+            swapyItems:[{ 
+                _id: $scope.item._id,
                 name: $scope.item.name,
                 price: $scope.item.price,
                 owner: $scope.item.owner._id,
@@ -87,6 +87,14 @@ angular.module('swapsyApp')
             }]
         });
         swap.$save(function(response) {
+            var message = {
+                _id: $scope.item.owner._id,
+                user: $scope.currentUser._id,
+                swap: response._id
+            }
+        var mess = new Message(message);
+        mess.$update();
+
         $location.path('swap/' + response._id);
       }, function(errorResponse) {
         $scope.error = errorResponse.data.message;

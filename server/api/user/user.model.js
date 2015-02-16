@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var Swap = require('../swap/swap.model');
+var User = require('./user.model');
 
 var UserSchema = new Schema({
   name: String,
@@ -17,6 +19,12 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  messages:[{
+    user:{type: Schema.Types.ObjectId, ref: 'User'},
+    Swap:{type: Schema.Types.ObjectId, ref: 'Swap'},
+    messages: String,
+    status:{type: String, default: 'UnRead'}
+  }],
   dateJoined: { type: Date, default: Date.now },
   rating: Number,
   hashedPassword: String,
@@ -44,7 +52,8 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'messages':this.messages
     };
   });
 

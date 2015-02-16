@@ -26,6 +26,26 @@
     font-weight: normal;
     font-style: normal;
 }
+.message-icon{
+    background-color: white;
+    border: 0;
+}
+.numberOfMessages{
+  border-radius: 100%;
+  border: 1px solid;
+  position: absolute;
+  padding: 0px 2px 0px 2px;
+  color: red;
+  font-weight: bold;
+  font-size: 8px;
+  background-color: white;
+  top: -4px;
+  right: 0;
+}
+.message{
+    margin-right: 10px;
+   position: relative;
+}
 .swapsyIcon{
     background: url(/assets/images/Icon-Swapsy.svg);
     width: 150px;
@@ -33,6 +53,7 @@
     margin-bottom: -9px;
     display: inline-block;
 }
+
 #logsig{
     font-size: 11px;
     margin-bottom: 2px; 

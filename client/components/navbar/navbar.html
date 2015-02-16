@@ -9,7 +9,6 @@
         
         <!-- <span class="pull-right"  ng-class="{active: isActive('/logout')}"><a href="" ng-click="logout()"><!--  Logout</a></span> -->
         <div ng-show="isLoggedIn()">
-      
         <div  class="pull-right dropdown">
           <button class="btn-logout glyphicon glyphicon-off dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
           </button>
@@ -17,9 +16,23 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" ng-href="catalogue/{{getCurrentUser()._id}}">Profile</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()">Logout</a></li>
           </ul>
+
         </div>
+
+
         </div>
         <span ng-show="isLoggedIn()" class="pull-right"  ng-class="{active: isActive('/logout')}">Hello {{getCurrentUser().name}}</span>
+  
+        <div ng-show="isLoggedIn()" class="pull-right dropdown message">
+          <button class="message-icon glyphicon glyphicon-envelope" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+          </button>
+          <div class="numberOfMessages">{{numberOfMessages}}</div>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+            <li role="presentation" ng-repeat="message in getCurrentUser().messages  track by $index "><a role="menuitem" tabindex="-1" ng-href="swap/{{message.swap}}">New Offer From {{message.user.name}}</a></li>
+          </ul>
+        </div>
+
+        
         <span ><a href="/addItem">Place Item</a></span>
       </div>
 

@@ -57,6 +57,24 @@ exports.destroy = function(req, res) {
     return res.send(204);
   });
 };
+exports.message = function(req, res){
+  User.findById(req.body._id, function (err, user) {
+    console.log(user);
+    if (err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    var message = ({
+       user: req.body.user,    
+       swap: req.body.swap
+    });
+    user.messages.push(message);
+    var updated = user;
+    updated.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, message);
+    });
+  });
+}
+
 
 /**
  * Change a users password
@@ -84,9 +102,11 @@ exports.changePassword = function(req, res, next) {
  */
 exports.me = function(req, res, next) {
   var userId = req.user._id;
-  User.findOne({
+  var query = User.findOne({
     _id: userId
-  }, '-salt -hashedPassword', function(err, user) { // don't ever give out the password or salt
+  }, '-salt -hashedPassword')// don't ever give out the password or salt
+  .populate('messages.user','name');
+  query.exec(function(err, user) { 
     if (err) return next(err);
     if (!user) return res.json(401);
     res.json(user);

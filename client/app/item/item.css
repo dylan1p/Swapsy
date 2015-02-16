@@ -6,7 +6,7 @@
 }
 .popup{
 	margin: 30px auto;
-	height: 500px;
+	min-height: 500px;
 	width: 500px;
 	background-color: white;
 	z-index: 9999;

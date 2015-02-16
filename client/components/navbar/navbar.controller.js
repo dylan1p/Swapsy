@@ -32,6 +32,15 @@ angular.module('swapsyApp')
     $scope.isLoggedIn = Auth.isLoggedIn;
     $scope.isAdmin = Auth.isAdmin;
     $scope.getCurrentUser = Auth.getCurrentUser;
+    $scope.numberOfMessages = 0;
+    angular.forEach(Auth.getCurrentUser().messages, function(message, key){
+      if (message.status == 'UnRead') {
+        $scope.numberOfMessages++;
+      };
+
+    }) 
+   
+    
 
     $scope.searchK = function(keyEvent){
       if (keyEvent.which === 13){
