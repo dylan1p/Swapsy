@@ -11,6 +11,7 @@ router.get('/catalogue', controller.catalogue);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
+router.put('/view/:id', controller.view);
 router.put('/comment/:id', controller.addComment);
 router.patch('/:id', controller.update);
 router.delete('/', controller.destroy);

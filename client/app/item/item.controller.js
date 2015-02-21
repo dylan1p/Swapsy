@@ -1,16 +1,21 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('ItemCtrl', function ($scope,$routeParams,$location,Swap,Items,Message,Comments,Catalogue, Auth) {
+  .controller('ItemCtrl', function ($scope,$http,$routeParams,$location,Swap,Items,Message,Comments,Catalogue, Auth) {
     
     $scope.getCurrentUser = Auth.getCurrentUser();
     var init = function () {
     Items.get({itemId: $routeParams.itemId}).$promise.then(function(data){
                 $scope.item = data;
+                if($scope.currentUser)
+                    if ($scope.currentUser._id === $scope.item.owner._id )
+                       return;
+                    else
+                        $http.put('/api/items/view/'+ $routeParams.itemId,{}).success(function(){});
+                     //If not the owner log view
             }, function(err){
             	console.log(err);
         });
-        
 	};
     $scope.currentUser = Auth.getCurrentUser()
     $scope.myVar = true;
@@ -86,11 +91,14 @@ angular.module('swapsyApp')
                 category: $scope.item.category
             }]
         });
+
         swap.$save(function(response) {
             var message = {
                 _id: $scope.item.owner._id,
                 user: $scope.currentUser._id,
-                swap: response._id
+                swap: response._id,
+                text:'New Swap Offer On ' + $scope.item.name
+
             }
         var mess = new Message(message);
         mess.$update();

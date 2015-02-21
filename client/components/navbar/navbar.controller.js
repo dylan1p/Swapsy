@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('swapsyApp')
-  .controller('NavbarCtrl', function ($scope, $location, $rootScope, Auth, Items) {
+  .controller('NavbarCtrl', function ($scope, $location, $rootScope, $http,Auth, Items) {
     $scope.menu = [{
       'title': 'Electronics',
       'link': '/Electronics'
@@ -37,9 +37,13 @@ angular.module('swapsyApp')
       if (message.status == 'UnRead') {
         $scope.numberOfMessages++;
       };
-
     }) 
-   
+
+   $scope.read= function(index){
+    $http.put('api/users/readMessage/'+index,{}).success(function(){
+      console.log('read');
+    });
+   }
     
 
     $scope.searchK = function(keyEvent){

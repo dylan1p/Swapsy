@@ -25,10 +25,11 @@
   
         <div ng-show="isLoggedIn()" class="pull-right dropdown message">
           <button class="message-icon glyphicon glyphicon-envelope" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+            <div ng-if="numberOfMessages != 0"class="numberOfMessages">{{numberOfMessages}}</div>
           </button>
-          <div class="numberOfMessages">{{numberOfMessages}}</div>
+          
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-            <li role="presentation" ng-repeat="message in getCurrentUser().messages  track by $index "><a role="menuitem" tabindex="-1" ng-href="swap/{{message.swap}}">New Offer From {{message.user.name}}</a></li>
+            <li role="presentation"  ng-repeat="message in getCurrentUser().messages  track by $index "><a ng-click="read(message._id)" role="menuitem"  tabindex="-1" ng-href="swap/{{message.swap}}">{{message.text}}</a></li>
           </ul>
         </div>
 

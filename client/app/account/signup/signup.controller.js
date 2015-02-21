@@ -16,7 +16,7 @@ angular.module('swapsyApp')
         })
         .then( function() {
           // Account created, redirect to home
-          $location.path('/login');
+          $location.path('/');
         })
         .catch( function(err) {
           err = err.data;

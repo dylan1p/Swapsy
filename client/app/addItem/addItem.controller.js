@@ -91,7 +91,7 @@ angular.module('swapsyApp')
       var item = new Items({
         name: $scope.item.name,
         price: $scope.item.price,
-        owner: /*$scope.currentUser._id*/'54e0c592bf1885c8154e07a6',
+        owner: /*$scope.currentUser._id*/'54e317a9443766c013e2fb97',
         photos: $scope.item.photos,
         description: $scope.item.description,
         location: $scope.item.location,

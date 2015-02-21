@@ -21,8 +21,8 @@ var UserSchema = new Schema({
   },
   messages:[{
     user:{type: Schema.Types.ObjectId, ref: 'User'},
-    Swap:{type: Schema.Types.ObjectId, ref: 'Swap'},
-    messages: String,
+    swap:{type: Schema.Types.ObjectId, ref: 'Swap'},
+    text: String,
     status:{type: String, default: 'UnRead'}
   }],
   dateJoined: { type: Date, default: Date.now },

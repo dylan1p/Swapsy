@@ -68,6 +68,17 @@ exports.create = function(req, res) {
     return res.json(201, item);
   });
 };
+exports.view = function(req, res) {
+  Item.findById(req.params.id, function (err, item) {
+    if (err) { return handleError(res, err); }
+    if(!item) { return res.send(404); }
+    item.views ++;
+    item.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200);
+    });
+  });
+};
 
 // Updates an existing item in the DB.
 exports.update = function(req, res) {

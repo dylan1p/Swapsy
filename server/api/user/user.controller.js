@@ -59,12 +59,13 @@ exports.destroy = function(req, res) {
 };
 exports.message = function(req, res){
   User.findById(req.body._id, function (err, user) {
-    console.log(user);
+    
     if (err) { return handleError(res, err); }
     if(!user) { return res.send(404); }
     var message = ({
        user: req.body.user,    
-       swap: req.body.swap
+       swap: req.body.swap,
+       text: req.body.text
     });
     user.messages.push(message);
     var updated = user;
@@ -97,6 +98,21 @@ exports.changePassword = function(req, res, next) {
   });
 };
 
+exports.readMessage = function(req,res){
+  var query = User.find();
+  query.where({'messages._id': req.params.id});
+  query.exec(function(err, users){
+    var user = users[0];
+    for(var i = 0; i<user.messages.length; i++){
+       if(user.messages[i]._id === req.params.id)
+          user.messages[i]._id = 'Read';
+     }
+     user.save(function (err) {
+      if (err) { return handleError(res, err); }
+      return res.json(200, user);
+    });
+  });
+}
 /**
  * Get my info
  */
