@@ -5,6 +5,7 @@ angular.module('swapsyApp')
     $routeProvider
       .when('/addItem', {
         templateUrl: 'app/addItem/addItem.html',
-        controller: 'AdditemCtrl'
+        controller: 'AdditemCtrl',
+        authenticate: true
       });
   });

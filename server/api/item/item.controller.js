@@ -3,6 +3,8 @@
 var _ = require('lodash');
 var Item = require('./item.model');
 var User = require('../user/user.model');
+var schedule = require('node-schedule');
+
 
 // Get list of items
 exports.index = function(req, res) {
@@ -49,6 +51,7 @@ exports.category = function(req, res) {
     return res.json(200, items);
   });
 };
+  
 // Get a single item
 exports.show = function(req, res) {
   Item.findById(req.params.id)
@@ -122,6 +125,7 @@ exports.destroy = function(req, res) {
     });
   });
 };
+
 
 function handleError(res, err) {
   return res.send(500, err);

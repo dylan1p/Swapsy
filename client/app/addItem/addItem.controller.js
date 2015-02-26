@@ -46,9 +46,16 @@ angular.module('swapsyApp')
         (function (file, i) {
           $http.get('/aws/s3Policy?mimeType='+ file.type).success(function(response) {
           var s3Params = response;
+          console.log(response);
           $scope.upload[i] = $upload.upload({
             url: 'https://' + $scope.config.awsConfig.bucket + '.s3.amazonaws.com/',
             method: 'POST',
+            transformRequest: function (data, headersGetter) {
+               //Headers change here
+                  var headers = headersGetter();
+                  delete headers['Authorization'];
+                  return data;
+            },
             data: {
                     'key' : 's3UploadExample/'+ Math.round(Math.random()*10000) + '$$' + file.name,
                     'acl' : 'public-read',
@@ -60,6 +67,7 @@ angular.module('swapsyApp')
                   },
                   file: file,
           }).then(function(response) {
+          
             file.progress = parseInt(100);
             if (response.status === 201) {
               var data = xml2json.parser(response.data),
@@ -74,7 +82,7 @@ angular.module('swapsyApp')
                  if($scope.item.photos.length<2){
                     $('#itemImage > img').attr('src',$scope.item.photos[0]);
                   }
-                } else {
+                }else {
                         alert('Upload Failed');
                 }
               }, null, function(evt) {
@@ -91,7 +99,7 @@ angular.module('swapsyApp')
       var item = new Items({
         name: $scope.item.name,
         price: $scope.item.price,
-        owner: /*$scope.currentUser._id*/'54e317a9443766c013e2fb97',
+        owner: $scope.currentUser._id,
         photos: $scope.item.photos,
         description: $scope.item.description,
         location: $scope.item.location,

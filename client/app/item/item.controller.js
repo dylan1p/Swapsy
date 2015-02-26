@@ -17,22 +17,30 @@ angular.module('swapsyApp')
             	console.log(err);
         });
 	};
-    $scope.currentUser = Auth.getCurrentUser()
+    $scope.currentUser = Auth.getCurrentUser();
     $scope.myVar = true;
+    $scope.notLoggedIn = true;
    
     $scope.showModal = function() {
-        if($scope.getCurrentUser){
+        if($scope.currentUser.name !== undefined){
             Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){
                 $scope.catalogue = data.items;
                 $scope.user = data.user;
                 $scope.userItemID = $scope.catalogue[0]._id;
                 $scope.userItem = $scope.catalogue[0];
+                $scope.myVar = !$scope.myVar;
                 }, function(err){
                     console.log(err);
             });  
+        }else{
+            $scope.notLoggedIn = !$scope.notLoggedIn;
+            setTimeout(function() {
+                 $scope.notLoggedIn = !$scope.notLoggedIn;
+            }, 15);
+            
         }
        
-        $scope.myVar = !$scope.myVar;
+        
     };
     $scope.changeItem = function(){
         angular.forEach($scope.catalogue, function(item,index){
@@ -77,7 +85,6 @@ angular.module('swapsyApp')
                 owner: $scope.currentUser._id,
                 photos: $scope.userItem.photos,
                 condition: $scope.userItem.condition,
-                views: $scope.userItem.views,
                 category: $scope.userItem.category
             }],
             swapyItems:[{ 
@@ -87,7 +94,6 @@ angular.module('swapsyApp')
                 owner: $scope.item.owner._id,
                 photos: $scope.item.photos,
                 condition: $scope.item.condition,
-                views: $scope.item.views,
                 category: $scope.item.category
             }]
         });
@@ -101,7 +107,7 @@ angular.module('swapsyApp')
 
             }
         var mess = new Message(message);
-        mess.$update();
+        mess.$send();
 
         $location.path('swap/' + response._id);
       }, function(errorResponse) {

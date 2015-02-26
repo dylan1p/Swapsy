@@ -34,14 +34,13 @@ angular.module('swapsyApp')
     $scope.getCurrentUser = Auth.getCurrentUser;
     $scope.numberOfMessages = 0;
     angular.forEach(Auth.getCurrentUser().messages, function(message, key){
-      if (message.status == 'UnRead') {
+      if (message.status != 'Read') {
         $scope.numberOfMessages++;
       };
     }) 
 
    $scope.read= function(index){
     $http.put('api/users/readMessage/'+index,{}).success(function(){
-      console.log('read');
     });
    }
     

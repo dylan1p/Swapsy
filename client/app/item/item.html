@@ -1,5 +1,10 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
+	<div ng-hide="notLoggedIn" class="alert alert-danger" role="alert">
+		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		  <span class="sr-only">Error:</span>
+		   You must be logged in to make a swap.
+		</div>
 	<div class="row">
 		<div class="col-md-2 col-xs-12">
 		<card data="item"></card>

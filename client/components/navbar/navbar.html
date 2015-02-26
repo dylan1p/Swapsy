@@ -29,7 +29,7 @@
           </button>
           
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-            <li role="presentation"  ng-repeat="message in getCurrentUser().messages  track by $index "><a ng-click="read(message._id)" role="menuitem"  tabindex="-1" ng-href="swap/{{message.swap}}">{{message.text}}</a></li>
+            <li role="presentation"  ng-repeat="message in getCurrentUser().messages | orderBy:$index:reverse track by $index"><a ng-click="read(message._id)" role="menuitem"  tabindex="-1" ng-href="swap/{{message.swap}}">{{message.text}}</a></li>
           </ul>
         </div>
 

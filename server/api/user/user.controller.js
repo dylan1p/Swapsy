@@ -103,13 +103,14 @@ exports.readMessage = function(req,res){
   query.where({'messages._id': req.params.id});
   query.exec(function(err, users){
     var user = users[0];
-    for(var i = 0; i<user.messages.length; i++){
-       if(user.messages[i]._id === req.params.id)
-          user.messages[i]._id = 'Read';
+    for(var i = 0; i< user.messages.length; i++){
+       if(user.messages[i]._id == req.params.id){
+           user.messages[i].status = 'Read';
+       }
      }
      user.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, user);
+      return res.json(200, user.messages);
     });
   });
 }
