@@ -1,6 +1,4 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-
-
 <div class="container">
 	<div class="row">
 		<div class="col-md-12 registerText">Register a new item</div>
@@ -8,7 +6,7 @@
 			<div class="card">
 				<div class="card-title">{{item.name}}</div>
 				<div class="owner-name">{{getCurrentUser().name}}</div>
-				<div id="itemImage" class="itemImage"><img class="itemImage" src=""></img></div>
+				<div id="itemImage" class="itemImage"><img class="itemImage" src="">{{mainImage}}</img></div>
 				<div class="item-category">{{item.category}}</div>
 				<div class="item-condition">{{item.condition}}</div>
 				<div class="item-price">€{{item.price}}</div>				
@@ -21,7 +19,6 @@
 				<div class="tagLine"><span class="tag">{{tag}}</span><button ng-click="removeTag(tag)" class="btn-remove glyphicon glyphicon-remove"></button></div>
 			</div>
 		</div>
-		<div></div>
 		<div class="col-md-10">
 			<form id="newItemForm" class="form" name="form" ng-submit="create()" novalidate>
 				<label for ="name">Item name:</label>
@@ -46,10 +43,9 @@
 				<div class="form-group">
 				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
 				</div>
-				<div class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
-				"dragged-over">
-					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
-						<div class="thumbnail thumbnailImage" ng-repeat="item in item.photos">
+				<div  class="dropZone" ui-sortable="sortableOptions" ng-model="item.photos" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="dragged-over">
+					 <div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
+						<div class=" thumbnail thumbnailImage" ng-repeat="item in item.photos">
 					  		<img  src="{{item}}"/>
 						</div>
 				   	</div>
@@ -58,9 +54,12 @@
 	            </button>
 				</div>
 				
-					
 			</form>
-
+			<!-- <div class="form-group has-feedback transition" ng-repeat-reorder='item in item.photos' ng-repeat-reorder-handle="i.fa.fa-bars">
+					<input class="form-control form-inline player" type='text'
+						tabindex='{{$index + 1}}'
+						ng-model='item'/>
+			</div> -->			
 		</div>
 	</div>
 </div>

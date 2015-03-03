@@ -39,9 +39,15 @@ angular.module('swapsyApp')
       };
     }) 
 
-   $scope.read= function(index){
-    $http.put('api/users/readMessage/'+index,{}).success(function(){
-    });
+   $scope.read= function(id, index){
+    if($scope.getCurrentUser().messages[index].status == 'UnRead'){
+        $http.put('api/users/readMessage/'+ id,{}).success(function(response){
+        $scope.getCurrentUser().messages = response;
+        console.log(response);
+        $scope.numberOfMessages--;
+      });
+    }
+   
    }
     
 

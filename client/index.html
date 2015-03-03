@@ -10,16 +10,17 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
       <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+      <link rel="stylesheet" href="bower_components/open-sans/css/open-sans.css" />
       <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
     <link rel="stylesheet" href="app/app.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
       <!-- injector:css -->
       <link rel="stylesheet" href="app/account/login/login.css">
       <link rel="stylesheet" href="app/addItem/addItem.css">
@@ -68,8 +69,10 @@
       <script src="bower_components/angular-route/angular-route.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+      <script src="bower_components/jquery-ui/jquery-ui.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+     <script type="text/javascript" src="components/ui-sortable/sortable.js"></script>
      <script src="bower_components/xml2json/xml2json.js"></script>
      <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
       <script src="bower_components/ng-s3upload/build/ng-s3upload.min.js"></script>
@@ -107,6 +110,7 @@
           <script src="components/navbar/navbar.controller.js"></script>
           <script src="components/swap/swap.service.js"></script>
           <script src="components/swapComment/swapComment.service.js"></script>
+          <script src="components/ui-sortable/sortable.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
 </body>

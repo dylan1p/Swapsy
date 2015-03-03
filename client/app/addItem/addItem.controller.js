@@ -17,9 +17,17 @@ angular.module('swapsyApp')
       'Faulty'
     ];
     $scope.item = {};
-
     $scope.item.photos = [];
     $scope.item.tags = [];
+
+    $scope.sortableOptions = {
+      update: function(e, ui) {
+       /* console.log(ui.item.context.children[0].attributes[0].data);
+        console.log(ui.item[0].innerHTML);
+        $scope.mainImage = ui.item[0].innerHTML.src;
+        $('#itemImage > img').attr('src', ui.item[0].innerHTML);*/
+      }
+    };
     
     $scope.getCurrentUser = Auth.getCurrentUser;
     
@@ -46,7 +54,6 @@ angular.module('swapsyApp')
         (function (file, i) {
           $http.get('/aws/s3Policy?mimeType='+ file.type).success(function(response) {
           var s3Params = response;
-          console.log(response);
           $scope.upload[i] = $upload.upload({
             url: 'https://' + $scope.config.awsConfig.bucket + '.s3.amazonaws.com/',
             method: 'POST',
@@ -104,7 +111,6 @@ angular.module('swapsyApp')
         description: $scope.item.description,
         location: $scope.item.location,
         condition: $scope.item.condition,
-        views: 0,
         tags: $scope.item.tags,
         category: $scope.item.category,
         statuse:'Active'

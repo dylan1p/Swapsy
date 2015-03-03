@@ -1,19 +1,22 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
+	 
 	<div ng-hide="notLoggedIn" class="alert alert-danger" role="alert">
-		  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-		  <span class="sr-only">Error:</span>
-		   You must be logged in to make a swap.
-		</div>
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span>
+		You must be logged in to make a swap.
+	</div>
 	<div class="row">
 		<div class="col-md-2 col-xs-12">
 		<card data="item"></card>
+		<div ng-if="currentUser._id !== item.owner._id">
+			<div class="makeOffer">Make an offer to Swap!</div>
+			<button class="btn-login Swap-btn" type="button" ng-click="showModal()">Swapsy</button>
+		    
+		    <div class="or">OR</div>
+		    <button class="btn-login watchList">Add to Watchlist</button>
+		</div>
 		
-		<div class="makeOffer">Make an offer to Swap!</div>
-		<button class="btn-login Swap-btn" type="button" ng-click="showModal()">Swapsy</button>
-	    
-	    <div class="or">OR</div>
-	    <button class="btn-login watchList">Add to Watchlist</button>
 	    <div id="preferences">
 		    <div>Preferences for Swap:</div>
 			<div ng-repeat="tag in item.tags">
@@ -38,6 +41,9 @@
 			<br>
 			<div>{{item.description}}</div>
 		</div>
+		<div class="col-md-12">
+			<div ng-repeat="item in currentUser.recommendations"><card class="cards" data="item"></card></div>
+		</div>
 	</div>
 	<div id="comments" class="row">
 		<div class="col-md-5 col-xs-12">
@@ -58,8 +64,6 @@
 						<div class="commentUser">{{comment.text}}</div>
 					</div>				
 				</div>
-		
-				
 			</div>
 		</div>
 	</div>
@@ -75,12 +79,10 @@
 
 				<div class="col-md-6 ">
 					<div class="pull-right">
-
 						<div class="ownerName purple">{{currentUser.name}}</div><card data="userItem"></card>
 						<select ng-model="userItemID" ng-change="changeItem()" ng-options="item._id as item.name for item in catalogue"/> 
 						<div class="tots">Total <span class="total">€{{userItem.price}}</span></div>
 					</div>
-
 				</div>
 			</div>
 			<div class="inner">		

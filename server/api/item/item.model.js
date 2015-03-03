@@ -12,7 +12,7 @@ var ItemSchema = new Schema({
   description: String,
   location: String,
   condition: String,
-  views: Number,
+  views: {type: Number, default: 0},
   category: String,
   tags:[String],
   status: String,

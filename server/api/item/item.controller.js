@@ -4,6 +4,8 @@ var _ = require('lodash');
 var Item = require('./item.model');
 var User = require('../user/user.model');
 var schedule = require('node-schedule');
+var mongoose = require('mongoose');
+var Type = require('type-of-is');
 
 
 // Get list of items
@@ -73,13 +75,35 @@ exports.create = function(req, res) {
 };
 exports.view = function(req, res) {
   Item.findById(req.params.id, function (err, item) {
+    var UserID = req.body.UserID;
     if (err) { return handleError(res, err); }
     if(!item) { return res.send(404); }
     item.views ++;
     item.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200);
     });
+    if(UserID != undefined){
+      User.findById(UserID,function(err,user){ //push item to users viewed items list if they have not already viewed
+        if (err) { return handleError(res, err); }
+        if(user.views){
+          if (user.views.length==0) {
+            user.views.push(item._id);
+            calculateRecommendations(item,UserID);
+          }
+          if(user.views.indexOf(item._id)==-1){ 
+            user.views.push(item._id);
+            calculateRecommendations(item,UserID);
+          }
+          else{
+            console.log('viewed before');
+          }
+        }
+        user.save(function (err) {
+          if (err) { return handleError(res, err); }
+          return res.json(200);
+        });
+      });
+    }
   });
 };
 
@@ -96,6 +120,7 @@ exports.update = function(req, res) {
     });
   });
 };
+
 exports.addComment = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Item.findById(req.params.id, function (err, item) {
@@ -126,6 +151,93 @@ exports.destroy = function(req, res) {
   });
 };
 
+function calculateRecommendations(item, userID){
+  
+  var itemID = item._id;
+  var likeUsersItems = [];
+  var likeItemsPerc = [];
+
+  User.find({_id: {$ne: userID} ,views: itemID}, function(err,users){ //select users who have also viewed items exlucding current user
+    users.forEach(function(user){
+      user.views.forEach(function(view){//loop trough like users views
+        if(!itemID.equals(view)){ //add if not equal to the item viewed
+          view=view.toString();
+          if(likeUsersItems==null){
+            likeUsersItems.push(view); // add all the other items like users have viewed to the list
+          }
+          if(likeUsersItems.indexOf(view)==-1){
+            likeUsersItems.push(view); // add all the other items like users have viewed to the list
+          }
+        }
+      });
+    });
+    var waiting = 0;//Node is asyncronouse need this to make sure function has increased
+    User.findById(userID,function(err,user){ //user to set recommendation list
+      //compute similaritys()
+      for(var i=0; i<likeUsersItems.length; i++){
+        waiting ++;
+          Item.findById(likeUsersItems[i],function(err,sItem){
+            var diff = levenshteinDistance(item.name,sItem.name);//calaculate the difference between like users items and the item viewed
+            //TODO:----if in the same category -2
+            //if similar price -2
+            //if simialar location -2
+            if(item.category != sItem.category)
+              diff-=2;
+
+            if(diff < 6){ //if the difference is less then 6 e.g alike
+              var index = -1;
+              for(i=0; i<user.recommendations.length; i++){//loop trough to see if item is already in recommendlist so not to add again
+                if(user.recommendations[i]._id.equals(sItem._id))
+                  index++;
+              }
+              if(index ==  -1){//if the user does not already contains this recommendation
+                  var itemDiff = {
+                  _id: sItem._id,
+                  difference: diff,
+                  name: sItem.name,
+                  price: sItem.price,
+                  owner: sItem._id,
+                  photos: sItem.photos,
+                  condition: sItem.condition,
+                  category: sItem.category
+                }
+                likeItemsPerc.push(itemDiff);
+              }
+            }
+            waiting--;
+            complete();  
+          });    
+      }
+      function complete(){//when all the callbacks have completed
+        if(waiting==0){
+          var sortedPerc = _.sortBy(likeItemsPerc, 'difference');//sort based on difference 
+          if(sortedPerc.length>=2){
+            user.recommendations.unshift(sortedPerc[0],sortedPerc[1]);
+          }
+          if(sortedPerc.length==1){
+            user.recommendations.unshift(sortedPerc[0]);
+          }
+          user.save(function (err,user) {
+            if (err) { return handleError(res, err); }
+            console.log(user);
+          });
+        }
+      }
+    });
+  });
+
+
+}
+function levenshteinDistance (s, t) {
+        if (s.length === 0) return t.length;
+        if (t.length === 0) return s.length;
+ 
+        return Math.min(
+                levenshteinDistance(s.substr(1), t) + 1,
+                levenshteinDistance(t.substr(1), s) + 1,
+                levenshteinDistance(s.substr(1), t.substr(1)) + (s[0] !== t[0] ? 1 : 0)
+        );
+}//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#JavaScript
 
 function handleError(res, err) {
   return res.send(500, err);

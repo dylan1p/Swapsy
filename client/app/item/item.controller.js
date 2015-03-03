@@ -7,11 +7,12 @@ angular.module('swapsyApp')
     var init = function () {
     Items.get({itemId: $routeParams.itemId}).$promise.then(function(data){
                 $scope.item = data;
-                if($scope.currentUser)
-                    if ($scope.currentUser._id === $scope.item.owner._id )
+                if($scope.currentUser){
+                     if ($scope.currentUser._id === $scope.item.owner._id )
                        return;
                     else
-                        $http.put('/api/items/view/'+ $routeParams.itemId,{}).success(function(){});
+                        $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){});
+                }
                      //If not the owner log view
             }, function(err){
             	console.log(err);

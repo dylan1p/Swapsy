@@ -19,6 +19,14 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
+  recommendations:[{ 
+    name: String,
+    price: Number,
+    owner: {type: Schema.Types.ObjectId, ref: 'User'},
+    photos: [String],
+    category: String
+  }],
+  views:[{type: Schema.Types.ObjectId, ref: 'Item'}],
   messages:[{
     user:{type: Schema.Types.ObjectId, ref: 'User'},
     swap:{type: Schema.Types.ObjectId, ref: 'Swap'},

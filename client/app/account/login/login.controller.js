@@ -19,7 +19,7 @@ angular.module('swapsyApp')
         })
         .catch( function(err) {
           $scope.errors.other = err.message;
-          
+          $scope.user.password ='';
         });
       }
     };
