@@ -4,11 +4,11 @@
  */
 
 'use strict';
-
+/*
 var User = require('../api/user/user.model');
 var Item = require('../api/item/item.model');
 var Category = require('../api/category/category.model');
-var Swap = require('../api/swap/swap.model');
+var Swap = require('../api/swap/swap.model');*/
 /*Swap.find({}).remove(function(){});
 */
 /*Category.find({}).remove(function() {
@@ -48,4 +48,4 @@ User.find({}).remove(function() {
       console.log('finished populating users');
     }
   );
-});*/
+});

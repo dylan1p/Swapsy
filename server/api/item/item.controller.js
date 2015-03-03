@@ -5,7 +5,7 @@ var Item = require('./item.model');
 var User = require('../user/user.model');
 var schedule = require('node-schedule');
 var mongoose = require('mongoose');
-var Type = require('type-of-is');
+/*var Type = require('type-of-is');*/
 
 
 // Get list of items
