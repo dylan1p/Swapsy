@@ -1,0 +1,93 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+	
+	<div ng-if="data.status ==='accepted' && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
+		<b> Congratulations you have accepted Swap request!<br> Next step is to send your item to {{data.swapper.name}}.<br>To Find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a></b>
+	</div>
+	
+	<div ng-if="data.status ==='accepted' && getCurrentUser()._id === data.swapper._id" class="alert alert-success" role="alert">
+		<b> Your offer has been accepted by {{data.swapper.name}}<br> Next step is to send your item.<br>To find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a>.</b>
+	</div>
+	
+	<div ng-if="data.status ==='cancelled'" class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		This Swap has been rejected or cancelled.
+	</div>
+	
+
+
+	<div class="catName">Swap Offer</div>
+	<div class="date"><b>{{data.date_offered}}</b></div>
+	<div class="col-md-12 noPadding">
+		<div class="cards" ng-repeat="item in data.swapperItems">
+			<a ng-href="item/{{item._id}}"><card data="item"/></a>
+		</div>
+		<div class=""><span class="swap"></span></div>
+		<div class="cards" ng-repeat="item in data.swapyItems">
+			<a ng-href="item/{{item._id}}"><card data="item"/></a>
+		</div>
+
+		<div ng-if="data.status ==='accepted' && status !== true">
+			<button ng-click="sentItem()" class="cancel btn-login swap-accept" type="button">Sent Item</button>
+		</div>
+
+		<div ng-if="getCurrentUser()._id === data.swapper._id && data.status !=='cancelled' && data.status !=='accepted' ">
+			<button ng-click="showModalRemove()" class="cancel swap-cancel" type="button">Cancel Offer</button>
+		</div>
+		<div ng-if="getCurrentUser()._id === data.swapy._id && data.status !=='cancelled' && data.status !=='accepted'">
+			<button ng-click="showModalAccept()" class="cancel btn-login swap-accept" type="button">Accept Offer</button>
+		</div>
+		<div class="pull-left" ng-if="getCurrentUser()._id === data.swapy._id && data.status !=='cancelled' && data.status !=='accepted'">
+			<button ng-click="showModalRemove()" class="cancel swap-cancel" type="button">Cancel Offer</button>
+		</div>
+	</div>
+	
+
+
+	
+	<div id="comments" class="row">
+		<div class="col-md-5 col-xs-12">
+			<div class="commentBox">
+				<div class="commentTitle">Write a comment</div>
+				<textarea ng-model="comment" class="commentText"></textarea>
+				<button id="send" ng-click="addComment()" class="btn-login">Send</button>
+			</div>
+		</div>
+		<div class="col-md-7 col-xs-12">
+			<div class="comment-recieved">
+				<div class="comment" ng-repeat="comment in data.comments">
+					<div class="col-md-1">
+						<div class="icon-user glyphicon glyphicon-user"></div>
+					</div>
+					<div class="col-md-11">
+						<div class="commentUser"><b>{{comment.user.name}}</b><span>{{comment.date}}</span></div>
+						<div class="commentUser">{{comment.text}}</div>
+					</div>				
+				</div>			
+			</div>
+		</div>
+	</div>
+</div>
+<div class="overlay" ng-hide="myVar" >
+	<div class="popup alertPop">
+		Are you sure you would like to cancel this Swap?	
+		<div class="swapBtns">
+			<button class="swap-remove" ng-click="cancelSwap()" type="button">Cancel</button>
+			<button class="cancel" ng-click="hideModalRemove()">Exit</button>	
+		</div>
+		
+	</div>
+</div>
+<div class="overlay" ng-hide="swapIt" >
+	<div class="popup alertPop">
+		By clicking accept you agree swap your item with {{data.swapper.name}}	
+		<div class="swapBtns">
+			<button class="cancel btn-login swap-accept" ng-click="acceptOffer()" type="button">Accept</button>
+			<button class="cancel" type="button" ng-click="hideModalAccept()">Exit</button>	
+		</div>		
+	</div>
+</div>
+	
+
+
+

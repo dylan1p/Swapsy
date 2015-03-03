@@ -1,0 +1,66 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 registerText">Edit an Item</div>
+		<div class="col-md-2">
+			<div class="card">
+				<div class="card-title">{{item.name}}</div>
+				<div class="owner-name">{{item.owner.name}}</div>
+				<div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{item.photos[0]}}"></img></div>
+				<div class="item-category">{{item.category}}</div>
+				<div class="item-condition">{{item.condition}}</div>
+				<div class="item-price">€{{item.price}}</div>				
+			</div>
+			<div class="preferred">Preffered Items Tags</div>
+			<div>
+				<input id="tagsInput" type="text" name="tags" class="form-control" ng-keypress="addTag($event)" ng-model="tag">
+			</div>
+			<div class="tags" ng-repeat="tag in item.tags">
+				<div class="tagLine"><span class="tag">{{tag}}</span><button ng-click="removeTag(tag)" class="btn-remove glyphicon glyphicon-remove"></button></div>
+			</div>
+		</div>
+		<div></div>
+		<div class="col-md-10">
+			<form id="newItemForm" class="form" name="form" ng-submit="update()" novalidate>
+				<label for ="name">Item name:</label>
+				<input type="text" name="name" class="form-control" ng-model="item.name" required></input>
+				<label for ="condition">Condition</label>
+				<br>
+				<select name="condition" ng-model="item.condition" ng-options="condition for condition in condition"></select>
+				<br>
+				<label>Location</label>
+				<br>
+				<input type="text" name="location" class="form-control" ng-model="item.location" required></input>
+				<label>Value</label>
+				<input type="text" name="price" class="form-control" ng-model="item.price" required></input>
+				<label>Category</label>
+				<br>
+				<select ng-model="item.category" ng-options="categories for categories in categories"></select>
+				<br>
+				<label>Description</label>
+				<br>
+				<textarea class="form-control" name="description" ng-model="item.description" rows="5" ></textarea> 
+				<br>	
+				<div class="form-group">
+				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
+				</div>
+				<div class="dropZone" ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
+				"dragged-over">
+					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
+						<div class="thumbnail thumbnailImage" ng-repeat="item in item.photos">
+					  		<img  src="{{item}}"/>
+						</div>
+				   	</div>
+				   	<button class="btn-login" type="submit"> Save</button>
+				   	<button class="button-remove" ng-click="remove()" type="button">Remove</button>
+				</div>
+				
+					
+			</form>
+		</div>
+
+	</div>
+	
+
+</div>
+

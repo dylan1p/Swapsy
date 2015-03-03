@@ -1,0 +1,9 @@
+<div class="card">
+	<div class="card-title">{{data.name}}</div>
+	<div class="owner-name">{{data.owner.name}}</div>
+	<div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{data.photos[0]}}"></img></div>
+	<div class="item-category">{{data.category}}</div>
+	<div class="item-condition">{{data.condition}}</div>
+	<div class="item-price">€{{data.price}}</div>
+	<div ng-if="data.views!== undefined" class="item-views">{{data.views}} views</div>				
+</div>

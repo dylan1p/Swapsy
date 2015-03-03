@@ -1,0 +1,30 @@
+.pictureComments{
+	margin-bottom: 40px;
+}
+.userImage{
+  	margin-right: 20px;
+  	border-radius: 2px;
+  	border: 1px solid silver;
+  	float: left;	
+}
+.memberDate{
+	font-weight: bold;
+	margin-top: 10px;
+	
+}
+.memberLocation{
+	font-size: 12px;
+	margin-top: 10px;
+}
+#catalogue{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+.purple{
+	color: #7000D2;
+}
+.feedback{
+	margin-top: 35px;
+	font-size:  16px;
+	
+}

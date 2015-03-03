@@ -1,0 +1,42 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+<div class="row pictureComments">
+  <div class="col-md-10">
+    <div class="userImage"><img src="assets/images/user.jpg"></div>
+    <div class="ownerID"><a ng-href="catalogue/{{user._id}}">{{user.name}}</a></div>
+    <div class="memberDate">Member since: 9th Dec 2015</div>
+    <div class="memberLocation">Location: Navan, Co.Meath</div>
+    <div class="memberLocation">Active adds: <a href="/">2</a></div>
+    <div  class="memberLocation">Swapped items: <a href="/">4</a></div>
+  </div>  
+  <div class="col-md-2">
+      <div class="feedback purple">Feedback</div>
+      <div  class="memberLocation">Positive: <a href="/">3</a></div>
+      <div  class="memberLocation">Neutral: <a href="/">1</a></div>
+      <div  class="memberLocation">Negative: <a href="/">0</a></div>
+  </div>
+</div>
+
+
+<div id="catalogue" class="row">
+  <div class="catName">Catalogue</div>
+  <div ng-repeat="item in catalogue"> 
+     <a ng-href="item/{{item._id}}">
+      <div class="card cards">
+        <div class="card-title">{{item.name}}</div>
+        <div class="owner-name">{{item.owner.name}}</div>
+        <div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{item.photos[0]}}"></img></div>
+        <div class="item-category">{{item.category}}</div>
+        <div class="item-condition">{{item.condition}}</div>
+        <div class="item-price">€{{item.price}}</div>
+        <div class="item-views">{{item.views}} views</div>        
+      </div>
+    </a>
+  </div>
+</div>
+
+
+
+<footer class="footer"></footer>
+
