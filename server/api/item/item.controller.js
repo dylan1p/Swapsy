@@ -5,7 +5,9 @@ var Item = require('./item.model');
 var User = require('../user/user.model');
 var schedule = require('node-schedule');
 var mongoose = require('mongoose');
-/*var Type = require('type-of-is');*/
+var Type = require('type-of-is');
+var Q = require('q');
+var async = require('async');
 
 
 // Get list of items
@@ -88,20 +90,21 @@ exports.view = function(req, res) {
         if(user.views){
           if (user.views.length==0) {
             user.views.push(item._id);
-            calculateRecommendations(item,UserID);
+          
           }
           if(user.views.indexOf(item._id)==-1){ 
             user.views.push(item._id);
-            calculateRecommendations(item,UserID);
+           
           }
           else{
-            console.log('viewed before');
+             console.log('viewed before');
           }
         }
         user.save(function (err) {
           if (err) { return handleError(res, err); }
           return res.json(200);
         });
+         calculateRecommendations(item,UserID);
       });
     }
   });
@@ -152,64 +155,87 @@ exports.destroy = function(req, res) {
 };
 
 function calculateRecommendations(item, userID){
-  
   var itemID = item._id;
   var likeUsersItems = [];
   var likeItemsPerc = [];
+  
+  var getLikeUsersViews = function(){
+    var deffered = Q.defer();
 
-  User.find({_id: {$ne: userID} ,views: itemID}, function(err,users){ //select users who have also viewed items exlucding current user
-    users.forEach(function(user){
-      user.views.forEach(function(view){//loop trough like users views
-        if(!itemID.equals(view)){ //add if not equal to the item viewed
-          view=view.toString();
-          if(likeUsersItems==null){
-            likeUsersItems.push(view); // add all the other items like users have viewed to the list
-          }
-          if(likeUsersItems.indexOf(view)==-1){
-            likeUsersItems.push(view); // add all the other items like users have viewed to the list
-          }
-        }
-      });
+    User.find({_id: {$ne: userID} ,views: itemID}, function(err,users){ //select users who have also viewed items exlucding current user
+    if(err){deffered.reject(err);}
+    else{
+          users.forEach(function(user){
+          user.views.forEach(function(view){//loop trough like users views
+            if(!itemID.equals(view)){ //add if not equal to the item viewed
+              view=view.toString();
+              if(likeUsersItems==null){
+                likeUsersItems.push(view); // add all the other items like users have viewed to the list
+              }
+              if(likeUsersItems.indexOf(view)==-1){
+                likeUsersItems.push(view); // add all the other items like users have viewed to the list
+              }
+            }
+          });
+        });
+        deffered.resolve(likeUsersItems);
+      }
     });
-    var waiting = 0;//Node is asyncronouse need this to make sure function has increased
-    User.findById(userID,function(err,user){ //user to set recommendation list
-      //compute similaritys()
-      for(var i=0; i<likeUsersItems.length; i++){
-        waiting ++;
-          Item.findById(likeUsersItems[i],function(err,sItem){
-            var diff = levenshteinDistance(item.name,sItem.name);//calaculate the difference between like users items and the item viewed
-            //TODO:----if in the same category -2
+    return deffered.promise;
+  }
+  var calls = [];
+  getLikeUsersViews().then(function(likeUsersItems){
+    User.findById(userID,function(err,user){ //user to set recommendation list    
+      likeUsersItems.forEach(function(ids){
+        calls.push(function(callback) {  //find all of the items in like items list
+          Item.findById(ids,function(err,sItem){
+          if (err)
+              return callback(err);
+          
+          callback(null, sItem);
+        });
+        });
+      });
+      async.parallel(calls, function(err, result) {//waits till all the results are found(promise resolved)
+            if (err)
+                return console.log(err);
+          
+            result.forEach(function(likeItem){
+            var diff= 4;  
+            diff += getEditDistance(item.name,likeItem.name);//calaculate the difference between like users items and the item viewed
+            
+            
+            //TODO:
             //if similar price -2
-            //if simialar location -2
-            if(item.category != sItem.category)
+           
+            if(item.location != likeItem.location)
               diff-=2;
 
-            if(diff < 6){ //if the difference is less then 6 e.g alike
+            if(item.category == likeItem.category)
+              diff-=2;
+            
+            console.log(diff);
+            if(diff < 10){ //if the difference is less then 10 e.g alike
               var index = -1;
-              for(i=0; i<user.recommendations.length; i++){//loop trough to see if item is already in recommendlist so not to add again
-                if(user.recommendations[i]._id.equals(sItem._id))
+              for(var i=0; i<user.recommendations.length; i++){//loop trough to see if item is already in recommendlist so not to add again
+                if(user.recommendations[i]._id.equals(likeItem._id))
                   index++;
               }
               if(index ==  -1){//if the user does not already contains this recommendation
                   var itemDiff = {
-                  _id: sItem._id,
+                  _id: likeItem._id,
                   difference: diff,
-                  name: sItem.name,
-                  price: sItem.price,
-                  owner: sItem._id,
-                  photos: sItem.photos,
-                  condition: sItem.condition,
-                  category: sItem.category
+                  name: likeItem.name,
+                  price: likeItem.price,
+                  owner: likeItem.owner,
+                  photos: likeItem.photos,
+                  condition: likeItem.condition,
+                  category: likeItem.category
                 }
                 likeItemsPerc.push(itemDiff);
               }
             }
-            waiting--;
-            complete();  
-          });    
-      }
-      function complete(){//when all the callbacks have completed
-        if(waiting==0){
+            })
           var sortedPerc = _.sortBy(likeItemsPerc, 'difference');//sort based on difference 
           if(sortedPerc.length>=2){
             user.recommendations.unshift(sortedPerc[0],sortedPerc[1]);
@@ -218,26 +244,48 @@ function calculateRecommendations(item, userID){
             user.recommendations.unshift(sortedPerc[0]);
           }
           user.save(function (err,user) {
-            if (err) { return handleError(res, err); }
+            if (err) { console.log(err); }
             console.log(user);
           });
-        }
-      }
+          
+        });
     });
   });
-
-
+  // Compute the edit distance between the two given strings
+  function getEditDistance(a, b) {
+    if(a.length === 0) return b.length; 
+    if(b.length === 0) return a.length; 
+   
+    var matrix = [];
+   
+    // increment along the first column of each row
+    var i;
+    for(i = 0; i <= b.length; i++){
+      matrix[i] = [i];
+    }
+   
+    // increment each column in the first row
+    var j;
+    for(j = 0; j <= a.length; j++){
+      matrix[0][j] = j;
+    }
+   
+    // Fill in the rest of the matrix
+    for(i = 1; i <= b.length; i++){
+      for(j = 1; j <= a.length; j++){
+        if(b.charAt(i-1) == a.charAt(j-1)){
+          matrix[i][j] = matrix[i-1][j-1];
+        } else {
+          matrix[i][j] = Math.min(matrix[i-1][j-1] + 1, // substitution
+                                  Math.min(matrix[i][j-1] + 1, // insertion
+                                           matrix[i-1][j] + 1)); // deletion
+        }
+      }
+    }
+   
+    return matrix[b.length][a.length];
+  }
 }
-function levenshteinDistance (s, t) {
-        if (s.length === 0) return t.length;
-        if (t.length === 0) return s.length;
- 
-        return Math.min(
-                levenshteinDistance(s.substr(1), t) + 1,
-                levenshteinDistance(t.substr(1), s) + 1,
-                levenshteinDistance(s.substr(1), t.substr(1)) + (s[0] !== t[0] ? 1 : 0)
-        );
-}//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#JavaScript
 
 function handleError(res, err) {
   return res.send(500, err);

@@ -39,8 +39,9 @@ exports.create = function (req, res, next) {
  */
 exports.show = function (req, res, next) {
   var userId = req.params.id;
-
-  User.findById(userId, function (err, user) {
+  User.findById(userId)
+  .populate('recommendations.owner','name')
+  .exec(function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
     res.json(user.profile);
@@ -119,11 +120,12 @@ exports.readMessage = function(req,res){
  */
 exports.me = function(req, res, next) {
   var userId = req.user._id;
-  var query = User.findOne({
+  User.findOne({
     _id: userId
   }, '-salt -hashedPassword')// don't ever give out the password or salt
-  .populate('messages.user','name');
-  query.exec(function(err, user) { 
+  .populate('messages.user','name')
+  .populate('recommendations.owner','name')
+  .exec(function(err, user) { 
     if (err) return next(err);
     if (!user) return res.json(401);
     res.json(user);

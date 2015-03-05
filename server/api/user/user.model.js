@@ -61,7 +61,8 @@ UserSchema
     return {
       'name': this.name,
       'role': this.role,
-      'messages':this.messages
+      'messages':this.messages,
+      'recommendations':this.recommendations
     };
   });
 

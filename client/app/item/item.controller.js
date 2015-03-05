@@ -11,7 +11,9 @@ angular.module('swapsyApp')
                      if ($scope.currentUser._id === $scope.item.owner._id )
                        return;
                     else
-                        $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){});
+                        $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){
+                            console.log('view');
+                        });
                 }
                      //If not the owner log view
             }, function(err){
