@@ -74,7 +74,6 @@ angular.module('swapsyApp')
 
         });
         $scope.data = response;
-        $scope.$apply();
         $scope.swapIt = !$scope.swapIt;
         
     }

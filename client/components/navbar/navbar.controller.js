@@ -43,8 +43,9 @@ angular.module('swapsyApp')
     if($scope.getCurrentUser().messages[index].status == 'UnRead'){
         $http.put('api/users/readMessage/'+ id,{}).success(function(response){
         $scope.getCurrentUser().messages = response;
-        console.log(response);
         $scope.numberOfMessages--;
+        console.log(response);
+       
       });
     }
    

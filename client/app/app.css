@@ -29,6 +29,9 @@
     background-color: white;
     border: 0;
 }
+.messageNotRead{
+  background-color: rgb(253, 238, 217);
+}
 .numberOfMessages{
   border-radius: 100%;
   border: 1px solid;

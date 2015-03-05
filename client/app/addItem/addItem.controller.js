@@ -22,7 +22,7 @@ angular.module('swapsyApp')
 
     $scope.sortableOptions = {
       update: function(e, ui) {
-        $('#itemImage > img').attr('src', ui.item[0].childNodes[1].src);
+        $('#itemImage > img').attr('src', $scope.item.photos[0]);
       }
     };
     

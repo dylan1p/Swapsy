@@ -68,7 +68,7 @@ exports.message = function(req, res){
        swap: req.body.swap,
        text: req.body.text
     });
-    user.messages.push(message);
+    user.messages.unshift(message);
     var updated = user;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }

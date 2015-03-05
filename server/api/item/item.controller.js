@@ -284,7 +284,7 @@ function calculateRecommendations(item, userID){
     }
    
     return matrix[b.length][a.length];
-  }
+  }//http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance
 }
 
 function handleError(res, err) {

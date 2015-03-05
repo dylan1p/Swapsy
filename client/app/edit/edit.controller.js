@@ -16,13 +16,18 @@ angular.module('swapsyApp')
       'Faulty'
     ];
   
-    var init = function () {
+  var init = function () {
     Items.get({itemId: $routeParams.itemId}).$promise.then(function(data){
                 $scope.item = data;
             }, function(err){
             	console.log(err);
         });    
 	};
+  $scope.sortableOptions = {
+    update: function(e, ui) {
+      $('#itemImage > img').attr('src', $scope.item.photos[0]);
+    }
+  };  
 	$scope.addTag = function(keyEvent) {
     if (keyEvent.which === 13){
       $scope.item.tags.push($scope.tag);
