@@ -23,11 +23,19 @@ angular.module('swapsyApp')
             	console.log(err);
         });    
 	};
-  $scope.sortableOptions = {
+ /* $scope.sortableOptions = {
     update: function(e, ui) {
       $('#itemImage > img').attr('src', $scope.item.photos[0]);
     }
-  };  
+  };*/  
+
+  $scope.barConfig = {
+            group: 'foobar',
+            animation: 150,
+            onSort: function (/** ngSortEvent */evt){
+                // @see https://github.com/RubaXa/Sortable/blob/master/ng-sortable.js#L18-L24
+            }
+        };
 	$scope.addTag = function(keyEvent) {
     if (keyEvent.which === 13){
       $scope.item.tags.push($scope.tag);

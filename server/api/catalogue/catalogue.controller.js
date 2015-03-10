@@ -9,7 +9,8 @@ var User = require('../user/user.model');
 //Get a list of items a user has for swap
 exports.show = function(req,res){
   var query = Item.find()
-  .populate('owner','name');
+  .populate({path:'owner', select:'name points rating'})
+  .populate('comments.user','name');
   query.where({owner: req.query.id});
   query.exec(function (err, items) {
     if(err) { return handleError(res, err); }

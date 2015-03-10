@@ -67,6 +67,7 @@
 	line-height: 14px;
 }
 .itemImage{
+	clear: both;
 	width: 140px;
 	height: 140px;
 	moz-box-shadow: inset 0px 0px 3px 0px rgba(0,0,0,0.50);

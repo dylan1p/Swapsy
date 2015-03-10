@@ -33,8 +33,15 @@ var UserSchema = new Schema({
     text: String,
     status:{type: String, default: 'UnRead'}
   }],
+  feedback:[{
+    user:{type: Schema.Types.ObjectId, ref: 'User'},
+    rating:Number,
+    feedback:String,
+    date_placed: {type: Date, default: Date.now}
+  }],
   dateJoined: { type: Date, default: Date.now },
-  rating: Number,
+  points: {type: Number, default: 0},
+  rating: {type:Number, default:0},
   hashedPassword: String,
   provider: String,
   salt: String
@@ -130,6 +137,31 @@ UserSchema
  * Methods
  */
 UserSchema.methods = {
+
+  calcUserRating:function (user){
+    var points = user.points;
+    var rating = 0;
+
+    if(points==0)
+      rating = 0;
+    
+    if(points>0 && points<500)
+      rating = 1;
+    
+    if(points>=500 && points<1000)
+      rating = 2;
+
+    if (points>=1000 && points<1500)
+      rating = 3;
+
+    if (points>=1500 && points<2000)
+      rating = 4;
+
+    if (points>=2000)
+      rating = 5;
+
+    return rating;
+  },
   /**
    * Authenticate - check if the passwords are the same
    *

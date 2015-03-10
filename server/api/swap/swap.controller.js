@@ -13,8 +13,8 @@ exports.index = function(req, res) {
     .populate('swapper','name')
     .populate('swapy','name')
     .populate('comments.user','name')
-    .populate('swapperItems.owner','name')
-    .populate('swapyItems.owner','name')
+    .populate({path:'swapperItems.owner',select:'name rating'})
+    .populate({path:'swapyItems.owner',select:'name rating'})
     .exec(function (err, swap) {
       if(err) { return handleError(res, err); }
       if(!swap) { return res.send(404); }
@@ -31,7 +31,11 @@ exports.index = function(req, res) {
 // Get a single swap
 exports.show = function(req, res) {
   Swap.findById(req.params.id)
-  .populate('owner','name')
+   .populate('swapper','name')
+    .populate('swapy','name')
+    .populate('comments.user','name')
+    .populate({path:'swapperItems.owner',select:'name rating'})
+    .populate({path:'swapyItems.owner',select:'name rating'})
   .exec(function (err, swap) {
     if(err) { return handleError(res, err); }
     if(!swap) { return res.send(404); }
@@ -43,12 +47,20 @@ exports.show = function(req, res) {
 exports.create = function(req, res) {
   Swap.create(req.body, function(err, swap) {
     if(err) { return handleError(res, err); }
+    console.log(swap);
     return res.json(201, swap);
   });
+
 };
 // cancel a swap.
 exports.cancel = function(req, res) {
-  Swap.findById(req.params.id, function (err, swap) {
+  Swap.findById(req.params.id)
+    .populate('swapper','name')
+    .populate('swapy','name')
+    .populate('comments.user','name')
+    .populate({path:'swapperItems.owner',select:'name rating'})
+    .populate({path:'swapyItems.owner',select:'name rating'})
+    .exec(function (err, swap) {
     if (err) { return handleError(res, err); }
     if(!swap) { return res.send(404); }
     swap.status = 'cancelled';
@@ -60,7 +72,13 @@ exports.cancel = function(req, res) {
 };
 // Accept an Offer
 exports.acceptOffer = function(req, res) {
-  Swap.findById(req.params.id, function (err, swap) {
+  Swap.findById(req.params.id)
+    .populate('swapper','name')
+    .populate('swapy','name')
+    .populate('comments.user','name')
+    .populate({path:'swapperItems.owner',select:'name rating'})
+    .populate({path:'swapyItems.owner',select:'name rating'})
+    .exec( function (err, swap) {
     if (err) { return handleError(res, err); }
     if(!swap) { return res.send(404); }
     swap.status = 'accepted';
@@ -74,16 +92,65 @@ exports.acceptOffer = function(req, res) {
 // set status to sent
 exports.sentItem = function(req, res) {
   var userID = req.body.userID;
-  console.log(userID);
-  Swap.findById(req.params.id, function (err, swap) {
+  var photo = req.body.photo;
+  Swap.findById(req.params.id)
+  .populate('swapper','name')
+  .populate('swapy','name')
+  .populate('comments.user','name')
+  .populate({path:'swapperItems.owner',select:'name rating'})
+  .populate({path:'swapyItems.owner',select:'name rating'})
+  .exec(function (err, swap) {
     if (err) { return handleError(res, err); }
     if(!swap) { return res.send(404); }
-    if(userID == swap.swapper){
-       swap.swapperSent = true;
-    }
+    
+    if(userID == swap.swapper)
+       swap.swapperSent = photo; // add the photo to whatever users receipt
     else
-       swap.swapySent = true;
+       swap.swapySent = photo;
 
+    if(swap.swapperSent!=undefined && swap.swapySent!=undefined){ //if both parties have uploaded a receipts (sent items)
+      swap.status = 'sent'
+      //points awarded to both users
+      var swapperTot =0;
+      var swapyTot =0;
+      var swapperPoints = 100; //points to add to swapper (100 for completing a swap)
+      var swapyPoints =100;
+      
+      swap.swapperItems.forEach(function(i){
+        swapperTot+= i.price;
+      });
+      swap.swapyItems.forEach(function(i){
+        swapyTot+= i.price;
+      }); // add up each total
+      
+      if(swapperTot>swapyTot)
+        swapperPoints += (swapperTot-swapyTot); //if a party has swapped something of greater value points are added
+      else
+        swapyPoints += (swapyTot-swapperTot);  
+
+     
+
+      User.findById(swap.swapper, function (err, user) { 
+        if (err) { return handleError(res, err); }
+          user.points += swapperPoints; 
+          user.rating = calcUserRating(user); //converts points to stars
+          user.save(function (err,user) {
+            if (err) { console.log(err); }
+            console.log(user);
+          });
+      });
+      User.findById(swap.swapy, function (err, user) { 
+        if (err) { return handleError(res, err); }
+          user.points += swapyPoints;
+          user.rating = user.calcUserRating(user);
+          user.save(function (err,user) {
+            if (err) { console.log(err); }
+            console.log(user);
+          });
+      });
+
+    }
+       
     swap.save(function (err) {
       if (err) { return handleError(res, err); }
       scheduleReminder(swap._id); //schedule to send a reminder to both the parties to send item.
@@ -111,11 +178,14 @@ exports.addComment = function(req, res) {
     });
   });
 };
+
+
+
 function scheduleReminder(swapID){
   var date = new Date();
   var daystoAdd = 3;
-   /* var millisecondsToAdd= daystoAdd * 24 * 60 * 60 * 1000;*/
-  var millisecondsToAdd = 5 * 60 * 1000;
+  var millisecondsToAdd= daystoAdd * 24  * 60 * 1000;
+  
 
   date.setTime(date.getTime() + millisecondsToAdd);   
 
@@ -125,7 +195,7 @@ function scheduleReminder(swapID){
       var swapperID = swap.swapper;
       var swapyID = swap.swapy;
       
-      if(swap.swapperSent === false){
+      if(swap.swapperSent === undefined){
         User.findById(swapperID, function (err, user) { 
           if (err) { return handleError(res, err); }
           var message = ({
@@ -133,15 +203,16 @@ function scheduleReminder(swapID){
              swap: swap._id,
              text: 'Reminder: Have you completed swap and sent your item?' 
           });
-          user.messages.push(message);
+          user.messages.unshift(message);
           var updated = user;
           updated.save(function (err) {
             if (err) { return handleError(res, err); }
             return;
           });
+          scheduleReminder(swapID);//schedule reminder for 3 days later again
         });
       }
-      if(swap.swapySent === false){
+      if(swap.swapySent === undefined){
         User.findById(swapyID, function (err, user) { 
           if (err) { return handleError(res, err); }
           var message = ({
@@ -149,14 +220,16 @@ function scheduleReminder(swapID){
              swap: swap._id,
              text: 'Reminder: Have you completed swap and sent your item?' 
           });
-          user.messages.push(message);
+          user.messages.unshift(message);
           var updated = user;
           updated.save(function (err) {
             if (err) { return handleError(res, err); }
             return;
           });
         });
+        scheduleReminder(swapID);
       }
+
     });
   });
 }

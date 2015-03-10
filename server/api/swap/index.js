@@ -13,7 +13,4 @@ router.put('/acceptOffer/:id', controller.acceptOffer);
 router.put('/sentItem/:id', controller.sentItem);
 router.post('/comment/:id', controller.addComment);
 
-
-
-
 module.exports = router;

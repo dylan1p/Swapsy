@@ -11,8 +11,7 @@ angular.module('swapsyApp')
                      if ($scope.currentUser._id === $scope.item.owner._id )
                        return;
                     else
-                        $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){
-                            console.log('view');
+                        $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){     
                         });
                 }
                      //If not the owner log view
@@ -20,9 +19,14 @@ angular.module('swapsyApp')
             	console.log(err);
         });
 	};
+
     $scope.currentUser = Auth.getCurrentUser();
     $scope.myVar = true;
     $scope.notLoggedIn = true;
+
+    $scope.getTimes = function(t){
+        return new Array(t);
+    }
    
     $scope.showModal = function() {
         if($scope.currentUser.name !== undefined){
@@ -42,8 +46,6 @@ angular.module('swapsyApp')
             }, 15);
             
         }
-       
-        
     };
     $scope.changeItem = function(){
         angular.forEach($scope.catalogue, function(item,index){

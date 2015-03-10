@@ -1,0 +1,10 @@
+.cardStar{
+	font-size: 10px;
+	color:#F5A623;
+	float: right;
+	margin-top: 5px;
+}
+.owner-name{
+	float: left;
+	margin-right: 2px;
+}

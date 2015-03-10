@@ -15,5 +15,7 @@ router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 router.put('/message',controller.message);
 router.put('/readMessage/:id',controller.readMessage);
+router.put('/:id/feedback',controller.feedback);
+
 
 module.exports = router;

@@ -7,7 +7,9 @@ angular.module('swapsyApp')
       scope:{data:'='},      
       restrict: 'E',
       link: function link(scope, el, attr){
-      	
+      	scope.getTimes = function(t){
+        return new Array(t);
+        }
       }
     };
   });

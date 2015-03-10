@@ -5,6 +5,7 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 
+
 var validationError = function(res, err) {
   return res.json(422, err);
 };
@@ -40,7 +41,7 @@ exports.create = function (req, res, next) {
 exports.show = function (req, res, next) {
   var userId = req.params.id;
   User.findById(userId)
-  .populate('recommendations.owner','name')
+  .populate({path:'recommendations.owner', select:'name points rating'})
   .exec(function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
@@ -115,6 +116,30 @@ exports.readMessage = function(req,res){
     });
   });
 }
+exports.feedback = function(req,res){ //function to add user feedback
+  var userId = req.params.id;
+  var rating = req.body.rating;
+  var rateUser = req.body.userID;
+  User.findById(userId, function (err, user) {
+    if (err) { return handleError(res, err); }
+      if(!user) { return res.send(404); }
+      var feedback = ({
+         user: rateUser,    
+         feedback: req.body.feedback,
+         rating: rating
+      }); //build feeback object 
+      user.feedback.unshift(feedback);
+      user.points += rating * 100;
+      user.rating = user.calcUserRating(user); 
+     var updated = user;
+      updated.save(function (err) {
+        if (err) { return handleError(res, err); }
+        return res.json(200, user);
+      });
+    });
+}
+
+
 /**
  * Get my info
  */
@@ -124,7 +149,7 @@ exports.me = function(req, res, next) {
     _id: userId
   }, '-salt -hashedPassword')// don't ever give out the password or salt
   .populate('messages.user','name')
-  .populate('recommendations.owner','name')
+  .populate({path:'recommendations.owner', select:'name points rating'})
   .exec(function(err, user) { 
     if (err) return next(err);
     if (!user) return res.json(401);

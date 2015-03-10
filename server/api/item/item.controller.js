@@ -5,7 +5,7 @@ var Item = require('./item.model');
 var User = require('../user/user.model');
 var schedule = require('node-schedule');
 var mongoose = require('mongoose');
-var Type = require('type-of-is');
+//var Type = require('type-of-is');
 var Q = require('q');
 var async = require('async');
 
@@ -13,7 +13,7 @@ var async = require('async');
 // Get list of items
 exports.index = function(req, res) {
   var query = Item.find()
-  .populate('owner','name')
+  .populate({path:'owner', select:'name points rating'})
   .populate('comments.user','name');
   if(req.query.name){
     query.where({ name: new RegExp('^' + '[' + req.query.name + ']', 'i') });
@@ -26,7 +26,7 @@ exports.index = function(req, res) {
 //Get a list of items a user has for swap
 exports.catalogue = function(req,res){
   var query = Item.find()
-  .populate('owner','name');
+  .populate({path:'owner', select:'name points rating'})
   query.where({owner: req.query.id});
   query.exec(function (err, items) {
     if(err) { return handleError(res, err); }
@@ -45,7 +45,7 @@ exports.catalogue = function(req,res){
 // Get list of items in category
 exports.category = function(req, res) { 
   var query = Item.find()
-  .populate('owner','name')
+  .populate({path:'owner', select:'name points rating'})
   .populate('comments.user','name');
   if(req.query.name){
     query.where({ category: req.query.name });
@@ -59,7 +59,7 @@ exports.category = function(req, res) {
 // Get a single item
 exports.show = function(req, res) {
   Item.findById(req.params.id)
-  .populate('owner','name')
+  .populate({path:'owner', select:'name points rating'})
   .populate('comments.user','name')
   .exec(function (err, item) {
     if(err) { return handleError(res, err); }
@@ -90,10 +90,12 @@ exports.view = function(req, res) {
         if(user.views){
           if (user.views.length==0) {
             user.views.push(item._id);
+            calculateRecommendations(item,UserID);
           
           }
           if(user.views.indexOf(item._id)==-1){ 
             user.views.push(item._id);
+            calculateRecommendations(item,UserID);
            
           }
           else{
@@ -104,7 +106,7 @@ exports.view = function(req, res) {
           if (err) { return handleError(res, err); }
           return res.json(200);
         });
-         calculateRecommendations(item,UserID);
+         
       });
     }
   });
@@ -201,21 +203,21 @@ function calculateRecommendations(item, userID){
                 return console.log(err);
           
             result.forEach(function(likeItem){
-            var diff= 4;  
+            var diff= 0;  
             diff += getEditDistance(item.name,likeItem.name);//calaculate the difference between like users items and the item viewed
             
             
             //TODO:
-            //if similar price -2
+            //if similar price +5
            
             if(item.location != likeItem.location)
-              diff-=2;
+              diff+=5;
 
-            if(item.category == likeItem.category)
-              diff-=2;
+            if(item.category != likeItem.category)
+              diff+=5;
             
-            console.log(diff);
-            if(diff < 10){ //if the difference is less then 10 e.g alike
+           
+           /* if(diff < 30){ *///if the difference is less then 12 e.g alike
               var index = -1;
               for(var i=0; i<user.recommendations.length; i++){//loop trough to see if item is already in recommendlist so not to add again
                 if(user.recommendations[i]._id.equals(likeItem._id))
@@ -233,8 +235,9 @@ function calculateRecommendations(item, userID){
                   category: likeItem.category
                 }
                 likeItemsPerc.push(itemDiff);
+                console.log(itemDiff);
               }
-            }
+         /*   }*/
             })
           var sortedPerc = _.sortBy(likeItemsPerc, 'difference');//sort based on difference 
           if(sortedPerc.length>=2){
@@ -251,7 +254,7 @@ function calculateRecommendations(item, userID){
         });
     });
   });
-  // Compute the edit distance between the two given strings
+  //leveinshtein distance algorithm
   function getEditDistance(a, b) {
     if(a.length === 0) return b.length; 
     if(b.length === 0) return a.length; 

@@ -1,11 +1,11 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
 	
-	<div ng-if="data.status ==='accepted' && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
+	<div ng-if="data.status ==='accepted' && status === 'undefined' && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
 		<b> Congratulations you have accepted Swap request!<br> Next step is to send your item to {{data.swapper.name}}.<br>To Find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a></b>
 	</div>
 	
-	<div ng-if="data.status ==='accepted' && getCurrentUser()._id === data.swapper._id" class="alert alert-success" role="alert">
+	<div ng-if="data.status ==='accepted' && status === 'undefined' && getCurrentUser()._id === data.swapper._id" class="alert alert-success" role="alert">
 		<b> Your offer has been accepted by {{data.swapper.name}}<br> Next step is to send your item.<br>To find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a>.</b>
 	</div>
 	
@@ -27,22 +27,20 @@
 			<a ng-href="item/{{item._id}}"><card data="item"/></a>
 		</div>
 
-		<div ng-if="data.status ==='accepted' && status !== true">
-			<button ng-click="sentItem()" class="cancel btn-login swap-accept" type="button">Sent Item</button>
+		<div ng-if="data.status ==='accepted' && status === 'undefined'">
+			<button ng-click="showModalSent()" class="cancel btn-login swap-accept" type="button">Sent Item</button>
 		</div>
 
-		<div ng-if="getCurrentUser()._id === data.swapper._id && data.status !=='cancelled' && data.status !=='accepted' ">
+		<div ng-if="getCurrentUser()._id === data.swapper._id && data.status ==='requested' ">
 			<button ng-click="showModalRemove()" class="cancel swap-cancel" type="button">Cancel Offer</button>
 		</div>
-		<div ng-if="getCurrentUser()._id === data.swapy._id && data.status !=='cancelled' && data.status !=='accepted'">
+		<div ng-if="getCurrentUser()._id === data.swapy._id && data.status ==='requested'">
 			<button ng-click="showModalAccept()" class="cancel btn-login swap-accept" type="button">Accept Offer</button>
 		</div>
-		<div class="pull-left" ng-if="getCurrentUser()._id === data.swapy._id && data.status !=='cancelled' && data.status !=='accepted'">
+		<div class="pull-left" ng-if="getCurrentUser()._id === data.swapy._id && data.status ==='requested'">
 			<button ng-click="showModalRemove()" class="cancel swap-cancel" type="button">Cancel Offer</button>
 		</div>
 	</div>
-	
-
 
 	
 	<div id="comments" class="row">
@@ -80,11 +78,36 @@
 </div>
 <div class="overlay" ng-hide="swapIt" >
 	<div class="popup alertPop">
-		By clicking accept you agree swap your item with {{data.swapper.name}}	
+		By clicking accept you agree to Swap your item with {{data.swapper.name}}	
 		<div class="swapBtns">
 			<button class="cancel btn-login swap-accept" ng-click="acceptOffer()" type="button">Accept</button>
 			<button class="cancel" type="button" ng-click="hideModalAccept()">Exit</button>	
 		</div>		
+	</div>
+</div>
+<div class="overlay" ng-hide="rate"  >
+	<div class="popup ratingPop">
+		How would you rate your experience with this Swapper?
+		<input id="userRating" type="number" data-show-clear="false" ng-model="rating" class="rating" min=0 max=5 step=1 data-size="xs" >
+		<textarea class="form-control" rows="5" placeholder="Have you any extra feedback...?" val='' ng-model="feedback"></textarea>
+		<div class="swapBtns">
+		    <button class="cancel btn-login swap-accept" ng-click="submitFeedback()" type="button">Submit</button>
+			<button class="cancelled" type="button" ng-click="showModalAccept()">Cancel</button>	
+		</div>	
+				
+	</div>
+</div>
+<div class="overlay" ng-hide="sentIt" >
+	<div class="popup sentPop">
+		<div>Before you continue you must upload a photo of your postage receipt.</div>
+		
+		<div class="inputBtn form-group">
+			<input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
+		</div>
+		<div class="swapBtns">
+		    <button ng-hide="uploaded" class="cancel btn-login swap-accept" ng-click="sentItem()" type="button">Sent</button>
+			<button class="cancel" type="button" ng-click="showModalAccept()">Exit</button>	
+		</div>			
 	</div>
 </div>
 	

@@ -33,7 +33,13 @@
 				</ul>
 				<!-- <div class="rightScroll scrollRight pull-right"></div> -->
 			</div>
-			<div class="ownerID"><a ng-href="catalogue/{{item.owner._id}}">{{item.owner.name}}</a></div>
+			<div class="ownerID"><a ng-href="catalogue/{{item.owner._id}}">{{item.owner.name}}</a> <div ng-repeat="item in getTimes(item.owner.rating) track by $index">
+					<span class="glyphicon glyphicon-star star"></span>
+				</div></div>
+			<div class="points">
+				
+			</div>
+			
 			<div id="details">Item Details:</div>
 			<div><b>Condition:</b> {{item.condition}}</div>
 			<br>

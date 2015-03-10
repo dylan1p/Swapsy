@@ -1,10 +1,22 @@
 .cancelled{
-  font-size: 108px;
-  position: absolute;
-  top: 40px;
-  color: gray;
+  border-radius: 3px;
+  float: right;
+  width: 170px;
+  height: 40px;
+  color: white;
+  border: none;
   font-weight: bold;
-  transform: rotate(20deg);
+  background-color: #C5C4C4;
+}
+.ratingPop{
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  min-height: 320px;
+  width: 400px;
+  margin: 90px auto;
 }
 .swap{
     background: url(/assets/images/arrow-swap-512px.svg) no-repeat;
@@ -33,6 +45,19 @@
 .swap-accept{
 	clear: both;
 	margin-bottom: 20px;
+}
+.inputBtn{
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+.sentPop{
+  padding-top: 20px;
+  padding-left: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  min-height: 250px;
+  width: 400px;
+  margin: 90px auto;
 }
 .alertPop{
    padding-top: 40px;

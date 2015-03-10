@@ -1,6 +1,9 @@
 <div class="card">
 	<div class="card-title">{{data.name}}</div>
 	<div class="owner-name">{{data.owner.name}}</div>
+	<div ng-repeat="item in getTimes(data.owner.rating) track by $index">
+		<span class="cardStar glyphicon glyphicon-star"></span>
+	</div>
 	<div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{data.photos[0]}}"></img></div>
 	<div class="item-category">{{data.category}}</div>
 	<div class="item-condition">{{data.condition}}</div>

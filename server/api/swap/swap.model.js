@@ -23,11 +23,11 @@ var SwapSchema = new Schema({
 	  views: Number,
 	  category: String
 	}],
-	swapperSent: {type:Boolean, default:false},
-	swapySent: {type:Boolean, default:false},
+	swapperSent: String,
+	swapySent: String,
 	date_offered:{type: Date, default: Date.now},
 	date_accepted:{type:Date},
-	status:{type:String, default: 'sent'} ,
+	status:{type:String, default: 'requested'} ,
 	comments: [{
     user: {type: Schema.Types.ObjectId, ref: 'User'},    
     text: String,

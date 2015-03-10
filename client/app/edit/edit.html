@@ -44,7 +44,7 @@
 				<div class="form-group">
 				        <input id="photos" type="file" class="btn" ng-file-select="onFileSelect($files)" multiple>
 				</div>
-				<div class="dropZone" ui-sortable="sortableOptions" ng-model="item.photos"  ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
+				<div class="dropZone" ng-sortable="barConfig" ng-model="item.photos"  ng-file-drop="onFileSelect($files)" ng-file-drag-over-class=
 				"dragged-over">
 					<div class="dropText"  ng-if="item.photos.length == 0">Drag & drop to upload image</div>
 						<div class="thumbnail thumbnailImage" ng-repeat="item in item.photos">
