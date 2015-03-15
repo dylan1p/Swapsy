@@ -5,16 +5,17 @@ var Schema = mongoose.Schema;
 var crypto = require('crypto');
 var Swap = require('../swap/swap.model');
 var User = require('./user.model');
+var moment = require('moment');
 
 var UserSchema = new Schema({
   name: String,
   email: { type: String, lowercase: true },
   address:{
     street: String,
-    town: String,
-    county: String,
-    country: String
+    city: String,
+    county: String
   },
+  photo:{type: String, default:'assets/images/user.jpg'},
   role: {
     type: String,
     default: 'user'
@@ -66,10 +67,15 @@ UserSchema
   .virtual('profile')
   .get(function() {
     return {
+      '_id':this._id,
       'name': this.name,
       'role': this.role,
-      'messages':this.messages,
-      'recommendations':this.recommendations
+      'feedback':this.feedback,
+      'photo':this.photo,
+      'address': this.address,
+      'dateJoined':moment(this.dateJoined).format('Do MMMM YYYY'),
+      'points':this.points,
+      'rating':this.rating
     };
   });
 

@@ -1,4 +1,6 @@
-
+.border-grey{
+	border: 1px solid rgb(186, 186, 186);
+}
 a:hover{
 	text-decoration: none;
 }
@@ -47,6 +49,7 @@ a:hover{
 	padding: 0;
 }
 .catName{
+	clear: both;
 	font-size: 15px;
 	color: #9639e5;
 	font-weight: bold;

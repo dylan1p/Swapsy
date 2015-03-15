@@ -5,10 +5,10 @@
   <div class="col-md-10">
     <div class="userImage"><img src="assets/images/user.jpg"></div>
     <div class="ownerID"><a ng-href="catalogue/{{user._id}}">{{user.name}}</a></div>
-    <div class="memberDate">Member since: 9th Dec 2015</div>
-    <div class="memberLocation">Location: Navan, Co.Meath</div>
-    <div class="memberLocation">Active adds: <a href="/">2</a></div>
-    <div  class="memberLocation">Swapped items: <a href="/">4</a></div>
+    <div class="memberDate">Member since: {{user.dateJoined}}</div>
+    <div class="memberLocation">Location: {{user.address.street}}, {{user.address.city}}, {{user.address.county}}</div>
+    <div class="memberLocation">Active adds: <a href="/">{{activeAdds}}</a></div>
+    <div  class="memberLocation">Swapped items: <a href="/">{{swappedAdds}}</a></div>
   </div>  
   <div class="col-md-2">
       <div class="feedback purple">Feedback</div>

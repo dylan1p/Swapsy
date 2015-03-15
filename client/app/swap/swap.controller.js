@@ -6,10 +6,11 @@ angular.module('swapsyApp')
                 $scope.data = data;
                 if($scope.getCurrentUser()._id === $scope.data.swapper._id){
                     $scope.status = $scope.data.swapperSent;
-                }else{
+                }
+                if($scope.getCurrentUser()._id === $scope.data.swapy._id){
                     $scope.status = $scope.data.swapySent;
                   }//status of the either party 
-
+                console.log($scope.status);
             }, function(err){
             	console.log(err);
         });

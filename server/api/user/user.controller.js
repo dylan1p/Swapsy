@@ -134,9 +134,20 @@ exports.feedback = function(req,res){ //function to add user feedback
      var updated = user;
       updated.save(function (err) {
         if (err) { return handleError(res, err); }
-        return res.json(200, user);
+        return res.json(200);
       });
     });
+}
+
+exports.leaderboard = function(req,res){ 
+  User.find().limit(10).sort('-points').exec(function(err,user){ //get users with highest points
+    if(err) { return handleError(res, err); }
+    var users =[];
+    user.forEach(function(u){
+      users.push(u.profile); //only return the users profile not there password etc
+    });
+    res.json(200,users);
+  })
 }
 
 

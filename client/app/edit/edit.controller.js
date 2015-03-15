@@ -115,7 +115,7 @@ angular.module('swapsyApp')
         views: $scope.item.views,
         tags: $scope.item.tags,
         category: $scope.item.category,
-        statuse:'Active'
+        statuse: 'Active'
       });
 		item.owner = $scope.item.owner._id;
 		item.$update(function(response){
@@ -123,11 +123,24 @@ angular.module('swapsyApp')
 		});
 	}
   $scope.remove = function(){
-      Items.remove({id:$scope.item._id}).$promise.then(function(){
-                $location.path('/');
-            }, function(err){
-              console.log(err);
-      });    
+      var item = new Items({
+        _id: $scope.item._id,
+        name: $scope.item.name,
+        price: $scope.item.price,
+        owner: $scope.item.owner._id,
+        photos: $scope.item.photos,
+        description: $scope.item.description,
+        location: $scope.item.location,
+        condition: $scope.item.condition,
+        views: $scope.item.views,
+        tags: $scope.item.tags,
+        category: $scope.item.category,
+        statuse: 'Cancelled'
+      });
+    item.owner = $scope.item.owner._id;
+    item.$update(function(response){
+      $location.path('item/' + response._id);
+    });
   }
   init();
 	

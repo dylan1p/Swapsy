@@ -206,18 +206,14 @@ function calculateRecommendations(item, userID){
             var diff= 0;  
             diff += getEditDistance(item.name,likeItem.name);//calaculate the difference between like users items and the item viewed
             
-            
             //TODO:
             //if similar price +5
-           
             if(item.location != likeItem.location)
               diff+=5;
 
             if(item.category != likeItem.category)
-              diff+=5;
-            
+              diff+=5;          
            
-           /* if(diff < 30){ *///if the difference is less then 12 e.g alike
               var index = -1;
               for(var i=0; i<user.recommendations.length; i++){//loop trough to see if item is already in recommendlist so not to add again
                 if(user.recommendations[i]._id.equals(likeItem._id))
@@ -235,9 +231,7 @@ function calculateRecommendations(item, userID){
                   category: likeItem.category
                 }
                 likeItemsPerc.push(itemDiff);
-                console.log(itemDiff);
               }
-         /*   }*/
             })
           var sortedPerc = _.sortBy(likeItemsPerc, 'difference');//sort based on difference 
           if(sortedPerc.length>=2){

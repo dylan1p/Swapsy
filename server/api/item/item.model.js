@@ -15,7 +15,7 @@ var ItemSchema = new Schema({
   views: {type: Number, default: 0},
   category: String,
   tags:[String],
-  status: String,
+  status: {type:String, default:'Active'},
   comments: [{
     user: {type: Schema.Types.ObjectId, ref: 'User'},    
     text: String,

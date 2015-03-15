@@ -1,11 +1,14 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <div class="container">
 	
-	<div ng-if="data.status ==='accepted' && status === 'undefined' && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
+	<div ng-if="data.status ==='requested'  && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
+		Your swap request has been sent!</b>
+	</div>
+	<div ng-if="data.status ==='accepted' && status === undefined && getCurrentUser()._id === data.swapy._id" class="alert alert-success" role="alert">
 		<b> Congratulations you have accepted Swap request!<br> Next step is to send your item to {{data.swapper.name}}.<br>To Find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a></b>
 	</div>
 	
-	<div ng-if="data.status ==='accepted' && status === 'undefined' && getCurrentUser()._id === data.swapper._id" class="alert alert-success" role="alert">
+	<div ng-if="data.status ==='accepted' && status === undefined && getCurrentUser()._id === data.swapper._id" class="alert alert-success" role="alert">
 		<b> Your offer has been accepted by {{data.swapper.name}}<br> Next step is to send your item.<br>To find {{data.swapper.name}} address click <a href="catalogue/{{data.swapper._id}}">here</a>.</b>
 	</div>
 	
@@ -27,7 +30,7 @@
 			<a ng-href="item/{{item._id}}"><card data="item"/></a>
 		</div>
 
-		<div ng-if="data.status ==='accepted' && status === 'undefined'">
+		<div ng-if="data.status ==='accepted' && status === undefined">
 			<button ng-click="showModalSent()" class="cancel btn-login swap-accept" type="button">Sent Item</button>
 		</div>
 

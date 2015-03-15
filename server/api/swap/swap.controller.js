@@ -103,7 +103,7 @@ exports.sentItem = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!swap) { return res.send(404); }
     
-    if(userID == swap.swapper)
+    if(userID == swap.swapper._id)
        swap.swapperSent = photo; // add the photo to whatever users receipt
     else
        swap.swapySent = photo;
@@ -133,7 +133,7 @@ exports.sentItem = function(req, res) {
       User.findById(swap.swapper, function (err, user) { 
         if (err) { return handleError(res, err); }
           user.points += swapperPoints; 
-          user.rating = calcUserRating(user); //converts points to stars
+          user.rating = user.calcUserRating(user); //converts points to stars
           user.save(function (err,user) {
             if (err) { console.log(err); }
             console.log(user);
@@ -206,11 +206,11 @@ function scheduleReminder(swapID){
           user.messages.unshift(message);
           var updated = user;
           updated.save(function (err) {
-            if (err) { return handleError(res, err); }
+            if (err) { return consoel.log(err); }
             return;
           });
-          scheduleReminder(swapID);//schedule reminder for 3 days later again
         });
+        scheduleReminder(swapID);//schedule reminder for 3 days later again
       }
       if(swap.swapySent === undefined){
         User.findById(swapyID, function (err, user) { 
@@ -223,7 +223,7 @@ function scheduleReminder(swapID){
           user.messages.unshift(message);
           var updated = user;
           updated.save(function (err) {
-            if (err) { return handleError(res, err); }
+            if (err) { return consoel.log(err); }
             return;
           });
         });

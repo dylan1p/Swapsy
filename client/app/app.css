@@ -28,6 +28,8 @@
 .message-icon{
     background-color: white;
     border: 0;
+    font-size: 13px;
+    cursor: pointer;
 }
 .messageNotRead{
   background-color: rgb(253, 238, 217);
@@ -36,16 +38,18 @@
   border-radius: 100%;
   border: 1px solid;
   position: absolute;
-  padding:0px 3px 0px 2px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  right: -8px;
   color: red;
+  top: -5px;
   font-weight: bold;
-  font-size: 8px;
+  font-size: 10px;
   background-color: white;
-  top: -4px;
-  right: 0;
 }
 .message{
-    margin-right: 10px;
+  margin-right: 57px;
    position: relative;
 }
 .swapsyIcon{

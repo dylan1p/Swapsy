@@ -13,7 +13,8 @@
           <button class="btn-logout glyphicon glyphicon-off dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" ng-href="catalogue/{{getCurrentUser()._id}}">Profile</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" ng-href="catalogue/{{getCurrentUser()._id}}">View Profile</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" ng-href="/settings">Change Password</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" ng-click="logout()">Logout</a></li>
           </ul>
 
@@ -24,9 +25,9 @@
         <span ng-show="isLoggedIn()" class="pull-right"  ng-class="{active: isActive('/logout')}">Hello {{getCurrentUser().name}}</span>
   
         <div ng-show="isLoggedIn()" class="pull-right dropdown message">
-          <button class="message-icon glyphicon glyphicon-envelope" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
+          <div class="message-icon glyphicon glyphicon-envelope" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">
             <div ng-if="numberOfMessages != 0"class="numberOfMessages">{{numberOfMessages}}</div>
-          </button>
+          </div>
           
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
             <li role="presentation" ng-class="{messageNotRead: message.status=='UnRead'}" ng-repeat="message in getCurrentUser().messages | orderBy:$index:reverse track by $index"><a ng-click="read(message._id,$index)" role="menuitem"  tabindex="-1" ng-href="swap/{{message.swap}}">{{message.text}}</a></li>
