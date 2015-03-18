@@ -28,6 +28,7 @@
 .message-icon{
     background-color: white;
     border: 0;
+    color:rgb(115, 115, 115);
     font-size: 13px;
     cursor: pointer;
 }
@@ -49,7 +50,7 @@
   background-color: white;
 }
 .message{
-  margin-right: 57px;
+  margin-right: 25px;
    position: relative;
 }
 .swapsyIcon{

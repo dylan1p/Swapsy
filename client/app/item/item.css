@@ -4,7 +4,6 @@
 .hideModal{
 	opacity: 0;
 }
-
 .star{
   border-radius: 100%;
   font-size: 16px;
@@ -16,7 +15,7 @@
 }
 .popup{
 	margin: 30px auto;
-	min-height: 500px;
+	min-height: 400px;
 	width: 500px;
 	background-color: white;
 	z-index: 9999;

@@ -15,7 +15,7 @@ var UserSchema = new Schema({
     city: String,
     county: String
   },
-  photo:{type: String, default:'assets/images/user.jpg'},
+  photo:{type: String, default:'https://swapsy-store.s3.amazonaws.com/s3UploadExample%2F780%24user.jpg'},
   role: {
     type: String,
     default: 'user'

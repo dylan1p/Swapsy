@@ -6,6 +6,11 @@
 		<span class="sr-only">Error:</span>
 		You must be logged in to make a swap.
 	</div>
+	<div ng-hide="noItems" class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span class="sr-only">Error:</span>
+		You have no items in your catelog. To upload one click <a href="/addItem">here</a>. 
+	</div>
 	<div class="row">
 		<div class="col-md-2 col-xs-12">
 		<card data="item"></card>
@@ -25,7 +30,7 @@
 		</div>
 	  	</div>
 		<div class="col-md-10 col-xs-12">
-			<div class="pull-left addTitle">{{item.name}}</div><button ng-if="currentUser._id === item.owner._id" ng-click="editItem()" class="btn edit-btn glyphicon glyphicon-wrench"></button>
+			<div class="pull-left addTitle">{{item.name}}</div><button ng-if="editable" ng-click="editItem()" class="btn edit-btn glyphicon glyphicon-wrench"></button>
 			<div class="imagesBox">
 				<!-- <div class="leftScroll scrollLeft pull-left"></div> -->
 				<ul class="image-slider">
@@ -77,24 +82,21 @@
 		<div class="popup">
 			<div class="modal-header modal-title">Offer Items for Swap</div>
 			<div class="popupContent">
-				<div class="col-md-6">
+				<div class="col-md-6 ">
+						<div class="ownerName purple">{{currentUser.name}}</div><card data="userItem"></card>
+						<select ng-model="userItemID" ng-change="changeItem()" ng-options="item._id as item.name for item in catalogue"></select>
+						<div class="tots">Total <span class="total">€{{userItem.price}}</span></div>
+				</div>
+				<div class="col-md-6 pull-right">
 					<div class="ownerName purple">{{item.owner.name}}</div>
 					<card data="item"></card>
 					<div class="tots">Total <span class="total">€{{item.price}}</span></div>
 				</div>
-
-				<div class="col-md-6 ">
-					<div class="pull-right">
-						<div class="ownerName purple">{{currentUser.name}}</div><card data="userItem"></card>
-						<select ng-model="userItemID" ng-change="changeItem()" ng-options="item._id as item.name for item in catalogue"/> 
-						<div class="tots">Total <span class="total">€{{userItem.price}}</span></div>
-					</div>
-				</div>
 			
 			</div>
 			<div class="inner">		
-				<button class="cancel" ng-click="hideModal()">Cancel</button>
-				<button class="btn-login Swap-btn" ng-click="swapItem()">Swapsy</button>
+				<button class="cancel" type="button" ng-click="hideModal()">Cancel</button>
+				<button class="btn-login Swap-btn" type="button" ng-click="swapItem()">Swapsy</button>
 			</div>
 			
 			

@@ -1,21 +1,23 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-	<div class="catName">{{LeaderBoard}}</div>
-	<div class="cards" ng-repeat="leader in leaders track by $index"> 
-		<a ng-href="/catalogue/{{leader._id}}">
-			<div class="card">
-			<div class="card-title">{{getGetOrdinal($index+1)}}</div>
-			<div class="owner-name">{{leader.name}}</div>
-			<div ng-repeat="item in getTimes(leader.rating) track by $index">
-				<span class="cardStar glyphicon glyphicon-star"></span>
-			</div>
-			<div id="itemImage" class="itemImage"><img class="border-grey itemImage" ng-src="{{leader.photo}}"></img></div>
-			<div class="item-category">{{leader.address.city}}</div>
-			<div class="item-condition">{{leader.address.county}}</div>
-			<div class="item-price">{{leader.points}} Points</div>			
-			</div>
-		</a>
+	<div ng-if="currentPath === '/'">
+		<div class="catName">Top Swappers</div>
+		<div class="cards" ng-repeat="leader in leaders track by $index"> 
+			<a ng-href="/catalogue/{{leader._id}}">
+				<div class="card">
+				<div class="card-title">{{getGetOrdinal($index+1)}}</div>
+				<div class="owner-name">{{leader.name}}</div>
+				<div ng-repeat="item in getTimes(leader.rating) track by $index">
+					<span class="cardStar glyphicon glyphicon-star"></span>
+				</div>
+				<div id="itemImage" class="itemImage"><img class="border-grey itemImage" ng-src="{{leader.photo}}"></img></div>
+				<div class="item-category">{{leader.address.city}}</div>
+				<div class="item-condition">{{leader.address.county}}</div>
+				<div class="item-price">{{leader.points}} Points</div>			
+				</div>
+			</a>
+		</div>
 	</div>
 	<div class="catName">{{Category}}</div>
 		<div class="cards" ng-repeat="item in items"> 

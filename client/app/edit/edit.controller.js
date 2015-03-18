@@ -29,13 +29,6 @@ angular.module('swapsyApp')
     }
   };*/  
 
-  $scope.barConfig = {
-            group: 'foobar',
-            animation: 150,
-            onSort: function (/** ngSortEvent */evt){
-                // @see https://github.com/RubaXa/Sortable/blob/master/ng-sortable.js#L18-L24
-            }
-        };
 	$scope.addTag = function(keyEvent) {
     if (keyEvent.which === 13){
       $scope.item.tags.push($scope.tag);
@@ -123,7 +116,14 @@ angular.module('swapsyApp')
 		});
 	}
   $scope.remove = function(){
-      var item = new Items({
+     Items.remove({id:$scope.item._id}).$promise.then(function(){
+                $location.path('/');
+            }, function(err){
+              console.log(err);
+    }); 
+
+
+    /*  var item = new Items({
         _id: $scope.item._id,
         name: $scope.item.name,
         price: $scope.item.price,
@@ -140,7 +140,7 @@ angular.module('swapsyApp')
     item.owner = $scope.item.owner._id;
     item.$update(function(response){
       $location.path('item/' + response._id);
-    });
+    });*/
   }
   init();
 	

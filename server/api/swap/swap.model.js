@@ -26,7 +26,6 @@ var SwapSchema = new Schema({
 	swapperSent: String,
 	swapySent: String,
 	date_offered:{type: Date, default: Date.now},
-	date_accepted:{type:Date},
 	status:{type:String, default: 'requested'} ,
 	comments: [{
     user: {type: Schema.Types.ObjectId, ref: 'User'},    

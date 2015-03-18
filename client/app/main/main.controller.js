@@ -2,7 +2,10 @@
 
 angular.module('swapsyApp')
   .controller('MainCtrl', function ($scope,$rootScope,$location,Leaderboard) {
- 	
+	$scope.currentPath = $location.path();
+	Leaderboard.getAll(function(leaderboard){
+        $scope.leaders = leaderboard;
+    });
 	$scope.getTimes = function(t){
        return new Array(t);
     } 	

@@ -9,7 +9,7 @@ angular.module('swapsyApp')
                 $scope.item = data;
                 if($scope.currentUser){
                      if ($scope.currentUser._id === $scope.item.owner._id )
-                       return;
+                       $scope.editable =true;
                     else
                         $http.put('/api/items/view/'+ $routeParams.itemId,{UserID:$scope.getCurrentUser._id}).success(function(){     
                         });
@@ -23,7 +23,8 @@ angular.module('swapsyApp')
     $scope.currentUser = Auth.getCurrentUser();
     $scope.myVar = true;
     $scope.notLoggedIn = true;
-
+    $scope.noItems =true;
+    $scope.editable=false;
     $scope.getTimes = function(t){
         return new Array(t);
     }
@@ -33,9 +34,13 @@ angular.module('swapsyApp')
             Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){
                 $scope.catalogue = data.items;
                 $scope.user = data.user;
-                $scope.userItemID = $scope.catalogue[0]._id;
-                $scope.userItem = $scope.catalogue[0];
-                $scope.myVar = !$scope.myVar;
+                if($scope.catalogue.length === 0){
+                    $scope.noItems = !$scope.noItems;
+                }else{
+                    $scope.userItemID = $scope.catalogue[0]._id;
+                    $scope.userItem = $scope.catalogue[0];
+                    $scope.myVar = !$scope.myVar;
+                }                
                 }, function(err){
                     console.log(err);
             });  

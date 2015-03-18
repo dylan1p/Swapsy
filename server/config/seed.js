@@ -42,6 +42,8 @@ var Swap = require('../api/swap/swap.model');
     }
   );
 });*/
+/*
+User.find({}).remove(function(){});
 User.find({}).remove(function(){});
 Item.find({}).remove(function(){});
-Swap.find({}).remove();
+Swap.find({}).remove();*/

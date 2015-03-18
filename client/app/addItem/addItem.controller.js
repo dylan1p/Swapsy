@@ -20,11 +20,11 @@ angular.module('swapsyApp')
     $scope.item.photos = [];
     $scope.item.tags = [];
 
-    $scope.sortableOptions = {
+  /*  $scope.sortableOptions = {
       update: function(e, ui) {
         $('#itemImage > img').attr('src', $scope.item.photos[0]);
       }
-    };
+    };*/
     
     $scope.getCurrentUser = Auth.getCurrentUser;
     

@@ -5,8 +5,7 @@ angular.module('swapsyApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'angularFileUpload',
-  'ui.sortable'
+  'angularFileUpload'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
       $routeProvider.when('/Electronics', {
