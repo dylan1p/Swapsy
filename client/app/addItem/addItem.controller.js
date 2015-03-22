@@ -20,15 +20,11 @@ angular.module('swapsyApp')
     $scope.item.photos = [];
     $scope.item.tags = [];
 
-  /*  $scope.sortableOptions = {
-      update: function(e, ui) {
-        $('#itemImage > img').attr('src', $scope.item.photos[0]);
-      }
-    };*/
+
     
     $scope.getCurrentUser = Auth.getCurrentUser;
     
-    $scope.addTag = function(keyEvent) {
+    $scope.addTag = function(keyEvent) { //when enter is clicked
       if (keyEvent.which === 13){
          $scope.item.tags.push($scope.tag);
          $scope.tag = "";
@@ -59,7 +55,7 @@ angular.module('swapsyApp')
                   var headers = headersGetter();
                   delete headers['Authorization'];
                   return data;
-            },
+            }, //removes authorization header which was being posted by angular
             data: {
                     'key' : 's3UploadExample/'+ Math.round(Math.random()*10000) + '$$' + file.name,
                     'acl' : 'public-read',
@@ -84,7 +80,7 @@ angular.module('swapsyApp')
                 };
                 $scope.item.photos.push(parsedData.location);
                  if($scope.item.photos.length<2){
-                    $('#itemImage > img').attr('src',$scope.item.photos[0]);
+                    $('#itemImage > img').attr('src',$scope.item.photos[0]); //sets the image on the card to be the first image
                   }
                 }else {
                         alert('Upload Failed');
@@ -95,7 +91,7 @@ angular.module('swapsyApp')
           });
         }(file, i));    
       }
-    };    
+    };    //https://github.com/nukulb/s3-angular-file-upload
     
   	$scope.create = function() {
       $scope.currentUser = Auth.getCurrentUser();
@@ -109,9 +105,8 @@ angular.module('swapsyApp')
         location: $scope.item.location,
         condition: $scope.item.condition,
         tags: $scope.item.tags,
-        category: $scope.item.category,
-        statuse:'Active'
-      });
+        category: $scope.item.category
+      }); //creates a new item
       item.$save(function(response) {
         $location.path('item/' + response._id);
       }, function(errorResponse) {

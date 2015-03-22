@@ -23,11 +23,7 @@ angular.module('swapsyApp')
             	console.log(err);
         });    
 	};
- /* $scope.sortableOptions = {
-    update: function(e, ui) {
-      $('#itemImage > img').attr('src', $scope.item.photos[0]);
-    }
-  };*/  
+ 
 
 	$scope.addTag = function(keyEvent) {
     if (keyEvent.which === 13){
@@ -94,7 +90,7 @@ angular.module('swapsyApp')
           });
         }(file, i));    
       }
-    };    
+    };    //https://github.com/nukulb/s3-angular-file-upload
 	$scope.update = function(){
     var item = new Items({
         _id: $scope.item._id,

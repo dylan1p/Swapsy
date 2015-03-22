@@ -17,7 +17,10 @@ exports.show = function(req,res){
     var list = {};
     list.items=items;
     var userId = req.query.id;
-    User.findById(userId, function (err, user) {
+    User.findById(userId) 
+    .populate({path:'feedback.user', select:'name'})
+    .exec(function (err, user) {
+      console.log(user);
       if (err) return next(err);
       if (!user) return res.send(401);
       list.user = user.profile;

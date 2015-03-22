@@ -21,21 +21,32 @@
 
 <div id="catalogue" class="row">
   <div class="catName">Catalogue</div>
-  <div ng-repeat="item in catalogue"> 
-     <a ng-href="item/{{item._id}}">
-      <div class="card cards">
-        <div class="card-title">{{item.name}}</div>
-        <div class="owner-name">{{item.owner.name}}</div>
-        <div id="itemImage" class="itemImage"><img class="itemImage" ng-src="{{item.photos[0]}}"></img></div>
-        <div class="item-category">{{item.category}}</div>
-        <div class="item-condition">{{item.condition}}</div>
-        <div class="item-price">€{{item.price}}</div>
-        <div class="item-views">{{item.views}} views</div>        
-      </div>
+  <div class="cards" ng-repeat="item in catalogue"> 
+
+    <a ng-href="item/{{item._id}}">
+     <card data="item"></card>
     </a>
   </div>
 </div>
+<div id="feedbackCom" class="">
+  <div class="catName">Feedback</div>
+  <div ng-repeat="feedback in user.feedback">
+    <div class="row feedbackCom">
+      <div class="col-md-2">
+        <div class="user-pic icon-user glyphicon glyphicon-user"></div>
+      </div>
+      <div class="col-md-10">
+        <div class="commentUser"><b>{{feedback.user.name}}</b></div>
+        <div id="starContainer">
+          <span ng-repeat="item in getTimes(feedback.rating) track by $index" class="cardStar glyphicon glyphicon-star"></span>
+        </div>
+        <div>
+        <div class="feedbackComment">{{feedback.feedback}}</div>
+        </div>    
+      </div>
 
+  </div>
+</div>
 
 
 <footer class="footer"></footer>

@@ -20,6 +20,9 @@ angular.module('swapsyApp')
             }, function(err){
             	console.log(err);
         });
+    $scope.getTimes = function(t){
+        return new Array(t);
+    }
   
         
     

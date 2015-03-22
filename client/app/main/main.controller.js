@@ -9,7 +9,7 @@ angular.module('swapsyApp')
 	$scope.getTimes = function(t){
        return new Array(t);
     } 	
-	$scope.getGetOrdinal= function(n) {
+	$scope.getGetOrdinal= function(n) {//adds st nd rd accordingly
 	   var s=["th","st","nd","rd"],
 	       v=n%100;
 	   return n+(s[(v-20)%10]||s[v]||s[0]);

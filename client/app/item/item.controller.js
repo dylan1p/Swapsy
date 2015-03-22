@@ -30,14 +30,14 @@ angular.module('swapsyApp')
     }
    
     $scope.showModal = function() {
-        if($scope.currentUser.name !== undefined){
-            Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){
+        if($scope.currentUser.name !== undefined){ // if their is someone signed in 
+            Catalogue.get({id: $scope.currentUser._id}).$promise.then(function(data){ // get the signed in users catalogue 
                 $scope.catalogue = data.items;
                 $scope.user = data.user;
                 if($scope.catalogue.length === 0){
-                    $scope.noItems = !$scope.noItems;
+                    $scope.noItems = !$scope.noItems; //if they have no items set variable to false so it will show error message
                 }else{
-                    $scope.userItemID = $scope.catalogue[0]._id;
+                    $scope.userItemID = $scope.catalogue[0]._id; //display the first item in their catalogue as preselected
                     $scope.userItem = $scope.catalogue[0];
                     $scope.myVar = !$scope.myVar;
                 }                
@@ -45,7 +45,7 @@ angular.module('swapsyApp')
                     console.log(err);
             });  
         }else{
-            $scope.notLoggedIn = !$scope.notLoggedIn;
+            $scope.notLoggedIn = !$scope.notLoggedIn; //show error message for not logged in
             setTimeout(function() {
                  $scope.notLoggedIn = !$scope.notLoggedIn;
             }, 15);
@@ -53,10 +53,10 @@ angular.module('swapsyApp')
         }
     };
     $scope.changeItem = function(){
-        angular.forEach($scope.catalogue, function(item,index){
+        angular.forEach($scope.catalogue, function(item,index){ //change the item which they would like to swap
             if (item._id == $scope.userItemID ) {
                 $scope.userItem = item;
-            };
+            }; 
         }); 
     }
     $scope.hideModal = function(){
@@ -64,7 +64,7 @@ angular.module('swapsyApp')
     }
     
     $scope.editItem = function(){
-        $location.path('item/edit/' + $scope.item._id);
+        $location.path('item/edit/' + $scope.item._id);//go to edit item page
     }
     $scope.addComment = function(){
         var comment = {
@@ -78,7 +78,7 @@ angular.module('swapsyApp')
                 $scope.item.comments.push({
                     user: {_id: $scope.getCurrentUser._id, name: $scope.getCurrentUser.name},
                     text: data.text
-                })
+                }) //updates the items comments on server: PUT
                 $scope.comment = '';
             }, function(errorResponse) {
                 $scope.error = errorResponse.data.message;
@@ -108,7 +108,7 @@ angular.module('swapsyApp')
             }]
         });
 
-        swap.$save(function(response) {
+        swap.$save(function(response) { //posts a new swap to the server
             var message = {
                 _id: $scope.item.owner._id,
                 user: $scope.currentUser._id,
@@ -120,7 +120,7 @@ angular.module('swapsyApp')
         mess.$send();
 
         $location.path('swap/' + response._id);
-      }, function(errorResponse) {
+      }, function(errorResponse) { //if their is an error 
         $scope.error = errorResponse.data.message;
       });
     };

@@ -9,7 +9,7 @@ var mongoose = require('mongoose');
 var Q = require('q');
 var async = require('async');
 
-
+var saved = false;
 // Get list of items
 exports.index = function(req, res) {
   var query = Item.find()
@@ -88,25 +88,22 @@ exports.view = function(req, res) {
       User.findById(UserID,function(err,user){ //push item to users viewed items list if they have not already viewed
         if (err) { return handleError(res, err); }
         if(user.views){
-          if (user.views.length==0) {
+          if (user.views.length==0) {// if the user has no views
             user.views.push(item._id);
-            calculateRecommendations(item,UserID);
-          
           }
-          if(user.views.indexOf(item._id)==-1){ 
+          if(user.views.indexOf(item._id)==-1){ // if the item is not in the users
             user.views.push(item._id);
-            calculateRecommendations(item,UserID);
-           
           }
           else{
              console.log('viewed before');
           }
         }
-        user.save(function (err) {
+       user.save(function (err) {
           if (err) { return handleError(res, err); }
+          calculateRecommendations(item,UserID);
           return res.json(200);
         });
-         
+     
       });
     }
   });
@@ -186,6 +183,7 @@ function calculateRecommendations(item, userID){
     return deffered.promise;
   }
   var calls = [];
+
   getLikeUsersViews().then(function(likeUsersItems){
     User.findById(userID,function(err,user){ //user to set recommendation list    
       likeUsersItems.forEach(function(ids){
@@ -205,9 +203,10 @@ function calculateRecommendations(item, userID){
             result.forEach(function(likeItem){
             var diff= 0;  
             diff += getEditDistance(item.name,likeItem.name);//calaculate the difference between like users items and the item viewed
+             
+            if((item.price > (likeItem.price+50)) || (item.price < (likeItem.price-50))) //if the items price is not equal to price or 50 euro different
+              diff+=5; 
             
-            //TODO:
-            //if similar price +5
             if(item.location != likeItem.location)
               diff+=5;
 
@@ -240,9 +239,10 @@ function calculateRecommendations(item, userID){
           if(sortedPerc.length==1){
             user.recommendations.unshift(sortedPerc[0]);
           }
+         
           user.save(function (err,user) {
             if (err) { console.log(err); }
-            console.log(user);
+             console.log(user);
           });
           
         });

@@ -46,6 +46,7 @@
 			</div>
 			
 			<div id="details">Item Details:</div>
+			<div>{{item.status}}</div>
 			<div><b>Condition:</b> {{item.condition}}</div>
 			<br>
 			<div><b>Description:</b></div>
@@ -53,6 +54,7 @@
 			<div>{{item.description}}</div>
 		</div>
 		<div class="col-md-12">
+			<div class="reocommendation"><b>Recommendations</b></div>
 			<div ng-repeat="item in currentUser.recommendations"><a ng-href="item/{{item._id}}"><card class="cards" data="item"/></a></div>
 		</div>
 	</div>
@@ -82,15 +84,18 @@
 		<div class="popup">
 			<div class="modal-header modal-title">Offer Items for Swap</div>
 			<div class="popupContent">
-				<div class="col-md-6 ">
-						<div class="ownerName purple">{{currentUser.name}}</div><card data="userItem"></card>
-						<select ng-model="userItemID" ng-change="changeItem()" ng-options="item._id as item.name for item in catalogue"></select>
-						<div class="tots">Total <span class="total">€{{userItem.price}}</span></div>
-				</div>
-				<div class="col-md-6 pull-right">
+				<div class="col-md-6">
 					<div class="ownerName purple">{{item.owner.name}}</div>
 					<card data="item"></card>
 					<div class="tots">Total <span class="total">€{{item.price}}</span></div>
+				</div>
+
+				<div class="col-md-6 ">
+					<div class="pull-right">
+						<div class="ownerName purple">{{currentUser.name}}</div><card data="userItem"></card>
+						<select ng-model="userItemID" ng-change="changeItem()" ng-options="item._id as item.name for item in catalogue"></select> 
+						<div class="tots">Total <span class="total">€{{userItem.price}}</span></div>
+					</div>
 				</div>
 			
 			</div>
