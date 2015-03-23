@@ -10,13 +10,14 @@ var Q = require('q');
 var async = require('async');
 
 var saved = false;
+
 // Get list of items
 exports.index = function(req, res) {
   var query = Item.find()
   .populate({path:'owner', select:'name points rating'})
   .populate('comments.user','name');
   if(req.query.name){
-    query.where({ name: new RegExp('^' + '[' + req.query.name + ']', 'i') });
+    query.where({ name: new RegExp('^' + '[' + req.query.name + ']', 'i') });//http://sahatyalkabov.com/create-a-tv-show-tracker-using-angularjs-nodejs-and-mongodb/
   }
   query.exec(function (err, items) {
     if(err) { return handleError(res, err); }
@@ -109,7 +110,7 @@ exports.view = function(req, res) {
   });
 };
 
-// Updates an existing item in the DB.
+
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Item.findById(req.params.id, function (err, item) {
@@ -122,7 +123,7 @@ exports.update = function(req, res) {
     });
   });
 };
-
+//adds a comment
 exports.addComment = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Item.findById(req.params.id, function (err, item) {
@@ -132,7 +133,7 @@ exports.addComment = function(req, res) {
        user: req.body.user,    
        text: req.body.comment
     });
-    item.comments.push(comment);
+    item.comments.unshift(comment);
     var updated = item;
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -141,7 +142,7 @@ exports.addComment = function(req, res) {
   });
 };
 
-// Deletes a item from the DB.
+// deletes an item
 exports.destroy = function(req, res) {
   Item.findById(req.query.id, function (err, item) {
     if(err) { return handleError(res, err); }
@@ -233,16 +234,24 @@ function calculateRecommendations(item, userID){
               }
             })
           var sortedPerc = _.sortBy(likeItemsPerc, 'difference');//sort based on difference 
+          
           if(sortedPerc.length>=2){
             user.recommendations.unshift(sortedPerc[0],sortedPerc[1]);
           }
           if(sortedPerc.length==1){
             user.recommendations.unshift(sortedPerc[0]);
           }
+          
+          function checkLengthOfArray(){
+            if(sortedPerc.length>6){
+              user.recommendations.pop();
+              checkLengthOfArray();//recursion until array reaches length of 5
+            }
+          }
          
           user.save(function (err,user) {
             if (err) { console.log(err); }
-             console.log(user);
+             
           });
           
         });

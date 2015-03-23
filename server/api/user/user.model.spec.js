@@ -58,3 +58,4 @@ describe('User Model', function() {
     return user.authenticate('blah').should.not.be.true;
   });
 });
+

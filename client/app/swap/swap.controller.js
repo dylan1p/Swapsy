@@ -2,7 +2,7 @@
 
 angular.module('swapsyApp')
   .controller('SwapCtrl', function ($scope,$routeParams,$upload,$http,$location,Message,Swap,swapComments,Auth) {
-    Swap.get({SwapID: $routeParams.swapID}).$promise.then(function(data){
+    Swap.get({id:$routeParams.swapID}).$promise.then(function(data){
                 $scope.data = data;
                 if($scope.getCurrentUser()._id === $scope.data.swapper._id){
                     $scope.status = $scope.data.swapperSent;

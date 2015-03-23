@@ -5,7 +5,6 @@ var controller = require('./swap.controller');
 
 var router = express.Router();
 
-router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/cancel/:id', controller.cancel);

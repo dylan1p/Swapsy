@@ -6,29 +6,9 @@ var User = require('../user/user.model');
 var schedule = require('node-schedule');
 var moment = require('moment');
 
-// Get list of swaps
-exports.index = function(req, res) {
-  if(req.query){
-    Swap.findById(req.query.SwapID)
-    .populate('swapper','name')
-    .populate('swapy','name')
-    .populate('comments.user','name')
-    .populate({path:'swapperItems.owner',select:'name rating'})
-    .populate({path:'swapyItems.owner',select:'name rating'})
-    .exec(function (err, swap) {
-      if(err) { return handleError(res, err); }
-      if(!swap) { return res.send(404); }
-      return res.json(swap);
-    });
-  }else{
-    Swap.find(function (err, swaps) {
-      if(err) { return handleError(res, err); }
-      return res.json(200, swaps);
-    });
-  }
-};
 
-// Get a single swap
+
+// get a swap by id
 exports.show = function(req, res) {
   Swap.findById(req.params.id)
    .populate('swapper','name')
@@ -43,14 +23,12 @@ exports.show = function(req, res) {
   });
 };
 
-// Creates a new swap in the DB.
+// create a swap
 exports.create = function(req, res) {
   Swap.create(req.body, function(err, swap) {
     if(err) { return handleError(res, err); }
-    console.log(swap);
     return res.json(201, swap);
   });
-
 };
 // cancel a swap.
 exports.cancel = function(req, res) {
@@ -128,15 +106,12 @@ exports.sentItem = function(req, res) {
       else
         swapyPoints += (swapyTot-swapperTot);  
 
-     
-
       User.findById(swap.swapper, function (err, user) { 
         if (err) { return handleError(res, err); }
           user.points += swapperPoints; 
           user.rating = user.calcUserRating(user); //converts points to stars
           user.save(function (err,user) {
             if (err) { console.log(err); }
-            console.log(user);
           });
       });
       User.findById(swap.swapy, function (err, user) { 
@@ -145,15 +120,12 @@ exports.sentItem = function(req, res) {
           user.rating = user.calcUserRating(user);
           user.save(function (err,user) {
             if (err) { console.log(err); }
-            console.log(user);
           });
       });
 
     }
-       
     swap.save(function (err) {
       if (err) { return handleError(res, err); }
-      scheduleReminder(swap._id); //schedule to send a reminder to both the parties to send item.
       return res.json(200, swap);
     });
   });
@@ -183,10 +155,8 @@ exports.addComment = function(req, res) {
 
 function scheduleReminder(swapID){
   var date = new Date();
-  var daystoAdd = 3;
-  var millisecondsToAdd= daystoAdd * 24  * 60 * 1000;
+  var millisecondsToAdd= 3 * 24  * 60 * 1000;
   
-
   date.setTime(date.getTime() + millisecondsToAdd);   
 
   var j = schedule.scheduleJob(date, function(){ //schedule to sent messages to the user if they have not sent there Item

@@ -3,9 +3,13 @@
 angular.module('swapsyApp')
   .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
-      currentUser = User.get();
-    }
+    $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+      if($cookieStore.get('token')) {
+          currentUser = User.get();
+        }
+    });
+
+  
 
     return {
 
